@@ -3,12 +3,143 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Goethe mit Omar</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#0a7a3e" />
+  <title>Goethe mit Omar | من الصفر إلى B2</title>
   <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-  <h1>جاري تحديث الموقع... يرجى الانتظار دقيقة</h1>
-  <p>يتم الآن رفع المحتوى الكامل.</p>
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo" onclick="showSection('dashboard')">
+        <span class="logo-icon">🇩🇪</span>
+        <div>
+          <div class="logo-title">Goethe mit Omar</div>
+          <div class="logo-sub">من الصفر إلى B2</div>
+        </div>
+      </div>
+      <div class="header-progress">
+        <div class="progress-info">
+          <span id="overall-percent">0%</span>
+          <span class="progress-label">التقدم</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="overall-bar" style="width:0%"></div></div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="bottom-nav">
+    <button class="nav-btn active" data-section="dashboard" onclick="showSection('dashboard')"><span class="nav-icon">🏠</span><span>رئيسية</span></button>
+    <button class="nav-btn" data-section="lessons" onclick="showSection('lessons')"><span class="nav-icon">📚</span><span>دروس</span></button>
+    <button class="nav-btn" data-section="conversation" onclick="showSection('conversation')"><span class="nav-icon">💬</span><span>محادثة</span></button>
+    <button class="nav-btn" data-section="practice" onclick="showSection('practice')"><span class="nav-icon">✏️</span><span>تمارين</span></button>
+    <button class="nav-btn" data-section="scan" onclick="showSection('scan')"><span class="nav-icon">🔍</span><span>Scan</span></button>
+  </nav>
+
+  <main class="main">
+    <section id="dashboard" class="section active">
+      <div class="welcome-card">
+        <h1>مرحباً بك 👋</h1>
+        <p class="welcome-text">هدفك: <strong>B2</strong> خلال <strong>7 أشهر</strong></p>
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-value" id="streak-count">0</div><div class="stat-label">أيام متتالية</div></div>
+          <div class="stat-card"><div class="stat-value" id="lessons-done">0</div><div class="stat-label">دروس مكتملة</div></div>
+          <div class="stat-card"><div class="stat-value" id="words-learned">0</div><div class="stat-label">كلمات</div></div>
+          <div class="stat-card"><div class="stat-value" id="days-left">210</div><div class="stat-label">يوم متبقي</div></div>
+        </div>
+      </div>
+      <div class="card"><h2>📅 درس اليوم</h2><div id="today-lesson" class="today-lesson"></div></div>
+      <div class="card"><h2>🔥 السلسلة</h2><div class="streak-container"><div class="streak-fire" id="streak-display">🔥 0 يوم</div></div></div>
+      <div class="card">
+        <h2>📊 تقدم المستويات</h2>
+        <div class="levels-progress">
+          <div class="level-item"><div class="level-header"><span class="level-badge a1">A1</span><span id="a1-percent">0%</span></div><div class="progress-bar small"><div class="progress-fill" id="a1-bar" style="width:0%"></div></div></div>
+          <div class="level-item"><div class="level-header"><span class="level-badge a2">A2</span><span id="a2-percent">0%</span></div><div class="progress-bar small"><div class="progress-fill" id="a2-bar" style="width:0%"></div></div></div>
+          <div class="level-item"><div class="level-header"><span class="level-badge b1">B1</span><span id="b1-percent">0%</span></div><div class="progress-bar small"><div class="progress-fill" id="b1-bar" style="width:0%"></div></div></div>
+          <div class="level-item"><div class="level-header"><span class="level-badge b2">B2</span><span id="b2-percent">0%</span></div><div class="progress-bar small"><div class="progress-fill" id="b2-bar" style="width:0%"></div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="lessons" class="section">
+      <div class="card"><h1>📚 الدروس</h1>
+        <div class="level-tabs">
+          <button class="tab-btn active" data-level="a1" onclick="filterLessons('a1')">A1</button>
+          <button class="tab-btn" data-level="a2" onclick="filterLessons('a2')">A2</button>
+          <button class="tab-btn" data-level="b1" onclick="filterLessons('b1')">B1</button>
+          <button class="tab-btn" data-level="b2" onclick="filterLessons('b2')">B2</button>
+        </div>
+      </div>
+      <div id="lessons-list" class="lessons-list"></div>
+    </section>
+
+    <section id="lesson-view" class="section">
+      <div class="lesson-header">
+        <button class="back-btn" onclick="showSection('lessons')">← رجوع</button>
+        <span class="lesson-level-badge" id="lv-badge">A1</span>
+        <h1 id="lv-title"></h1>
+      </div>
+      <div id="lesson-content" class="lesson-content"></div>
+      <div class="lesson-actions"><button class="btn btn-primary" id="mark-complete-btn" onclick="markLessonComplete()">✓ أكملت هذا الدرس</button></div>
+    </section>
+
+    <section id="conversation" class="section">
+      <div class="card"><h1>💬 تدريب المحادثة</h1><p class="subtitle">حوارات حقيقية + استماع للنطق</p></div>
+      <div id="dialogue-list" class="lessons-list"></div>
+    </section>
+
+    <section id="dialogue-view" class="section">
+      <div class="lesson-header">
+        <button class="back-btn" onclick="showSection('conversation')">← رجوع</button>
+        <h1 id="dlg-title"></h1>
+      </div>
+      <div id="dialogue-content" class="lesson-content"></div>
+      <div class="lesson-actions"><button class="btn btn-primary" onclick="speakCurrentLine()">🔊 استمع للجملة الحالية</button></div>
+    </section>
+
+    <section id="practice" class="section">
+      <div class="card"><h1>✏️ تمارين تفاعلية</h1></div>
+      <div class="practice-grid">
+        <div class="practice-card" onclick="startQuiz('vocab')"><div class="practice-icon">📝</div><h3>مفردات</h3></div>
+        <div class="practice-card" onclick="startQuiz('grammar')"><div class="practice-icon">🧩</div><h3>قواعد</h3></div>
+        <div class="practice-card" onclick="startQuiz('fill')"><div class="practice-icon">✏️</div><h3>املأ الفراغ</h3></div>
+        <div class="practice-card" onclick="startQuiz('match')"><div class="practice-icon">🔗</div><h3>مطابقة</h3></div>
+      </div>
+      <div id="quiz-area" class="quiz-area hidden">
+        <div class="card">
+          <div class="quiz-header"><span id="quiz-progress">سؤال 1</span><button class="btn-text" onclick="closeQuiz()">إغلاق</button></div>
+          <div id="quiz-question" class="quiz-question"></div>
+          <div id="quiz-options" class="quiz-options"></div>
+          <div id="quiz-feedback" class="quiz-feedback hidden"></div>
+          <button id="next-question-btn" class="btn btn-primary hidden" onclick="nextQuestion()">التالي</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="scan" class="section">
+      <div class="card">
+        <h1>🔍 Scan – مراجعة سريعة</h1>
+        <p class="subtitle">اكتب أي جملة ألمانية واستمع، أو راجع الكلمات ببطاقات سريعة</p>
+      </div>
+      <div class="card">
+        <h2>🔊 نطق أي نص ألماني</h2>
+        <textarea id="scan-input" rows="3" placeholder="Schreibe hier einen deutschen Satz..." style="width:100%;padding:12px;border-radius:10px;border:1px solid #ddd;font-family:Inter,sans-serif;direction:ltr;text-align:left;font-size:1.1rem;box-sizing:border-box;"></textarea>
+        <button class="btn btn-primary" style="margin-top:12px;width:100%" onclick="speakScanText()">🔊 استمع للنطق</button>
+      </div>
+      <div class="card">
+        <h2>⚡ بطاقات سريعة</h2>
+        <div id="flashcard" class="flashcard" onclick="flipCard()">
+          <div id="flash-front" class="flash-side">اضغط للبدء</div>
+          <div id="flash-back" class="flash-side hidden"></div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:14px;">
+          <button class="btn" style="flex:1;background:#e74c3c;color:white" onclick="nextCard(false)">❌</button>
+          <button class="btn" style="flex:1;background:#27ae60;color:white" onclick="nextCard(true)">✅</button>
+        </div>
+      </div>
+    </section>
+  </main>
   <script src="app.js"></script>
 </body>
 </html>
