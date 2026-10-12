@@ -119,13 +119,36 @@
 
     <section id="scan" class="section">
       <div class="card">
-        <h1>🔍 Scan – مراجعة سريعة</h1>
-        <p class="subtitle">اكتب أي جملة ألمانية واستمع، أو راجع الكلمات ببطاقات سريعة</p>
+        <h1>🔍 Scan – ذكاء اصطناعي</h1>
+        <p class="subtitle">ارفع صورة لنص ألماني (مطبوع أو بخط اليد) وسيقرأها الذكاء الاصطناعي</p>
       </div>
       <div class="card">
-        <h2>🔊 نطق أي نص ألماني</h2>
-        <textarea id="scan-input" rows="3" placeholder="Schreibe hier einen deutschen Satz..." style="width:100%;padding:12px;border-radius:10px;border:1px solid #ddd;font-family:Inter,sans-serif;direction:ltr;text-align:left;font-size:1.1rem;box-sizing:border-box;"></textarea>
-        <button class="btn btn-primary" style="margin-top:12px;width:100%" onclick="speakScanText()">🔊 استمع للنطق</button>
+        <h2>📷 ارفع صورة للنص</h2>
+        <div class="scan-upload-zone" id="scan-dropzone">
+          <input type="file" id="scan-file" accept="image/*" capture="environment" style="display:none" onchange="handleScanImage(event)" />
+          <div class="scan-upload-inner" onclick="document.getElementById('scan-file').click()">
+            <div class="scan-upload-icon">📸</div>
+            <p><strong>اضغط لرفع صورة</strong></p>
+            <p class="hint">من المعرض أو الكاميرا · يدعم خط اليد</p>
+          </div>
+        </div>
+        <div id="scan-preview-wrap" class="hidden" style="margin-top:14px;text-align:center">
+          <img id="scan-preview" alt="معاينة" style="max-width:100%;max-height:220px;border-radius:12px;border:2px solid #ddd" />
+          <button class="btn-text" style="margin-top:8px" onclick="clearScanImage()">إزالة الصورة</button>
+        </div>
+        <button id="scan-ocr-btn" class="btn btn-primary" style="width:100%;margin-top:14px" onclick="runOCR()" disabled>
+          🤖 اقرأ النص بالذكاء الاصطناعي
+        </button>
+        <div id="scan-ocr-status" class="hint" style="margin-top:10px;text-align:center"></div>
+      </div>
+      <div class="card">
+        <h2>📝 النص المستخرج</h2>
+        <textarea id="scan-input" rows="4" placeholder="سيظهر النص هنا بعد قراءة الصورة، أو اكتب يدوياً..." style="width:100%;padding:12px;border-radius:10px;border:1px solid #ddd;font-family:Inter,sans-serif;direction:ltr;text-align:left;font-size:1.1rem;box-sizing:border-box;"></textarea>
+        <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap">
+          <button class="btn btn-primary" style="flex:1;min-width:140px" onclick="speakScanText()">🔊 استمع للنطق</button>
+          <button class="btn" style="flex:1;min-width:140px;background:#2980b9;color:#fff" onclick="translateScanText()">🇸🇦 ترجمة للعربية</button>
+        </div>
+        <div id="scan-translation" class="hidden" style="margin-top:14px;padding:14px;background:#e8f5ee;border-radius:10px;border-right:4px solid #0a7a3e"></div>
       </div>
       <div class="card">
         <h2>⚡ بطاقات سريعة</h2>
@@ -134,12 +157,13 @@
           <div id="flash-back" class="flash-side hidden"></div>
         </div>
         <div style="display:flex;gap:10px;margin-top:14px;">
-          <button class="btn" style="flex:1;background:#e74c3c;color:white" onclick="nextCard(false)">❌</button>
-          <button class="btn" style="flex:1;background:#27ae60;color:white" onclick="nextCard(true)">✅</button>
+          <button class="btn" style="flex:1;background:#e74c3c;color:white" onclick="nextCard()">❌</button>
+          <button class="btn" style="flex:1;background:#27ae60;color:white" onclick="nextCard()">✅</button>
         </div>
       </div>
     </section>
   </main>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
