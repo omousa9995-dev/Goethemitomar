@@ -120,7 +120,7 @@
     <section id="scan" class="section">
       <div class="card">
         <h1>🔍 Scan – ذكاء اصطناعي</h1>
-        <p class="subtitle">ارفع صورة لنص ألماني (مطبوع أو بخط اليد) وسيقرأها الذكاء الاصطناعي</p>
+        <p class="subtitle">ارفع صورة أو اكتب نصاً ألمانياً → اكتشاف الأخطاء بالأحمر → ترجمة ونطق</p>
       </div>
       <div class="card">
         <h2>📷 ارفع صورة للنص</h2>
@@ -142,9 +142,14 @@
         <div id="scan-ocr-status" class="hint" style="margin-top:10px;text-align:center"></div>
       </div>
       <div class="card">
-        <h2>📝 النص المستخرج</h2>
-        <textarea id="scan-input" rows="4" placeholder="سيظهر النص هنا بعد قراءة الصورة، أو اكتب يدوياً..." style="width:100%;padding:12px;border-radius:10px;border:1px solid #ddd;font-family:Inter,sans-serif;direction:ltr;text-align:left;font-size:1.1rem;box-sizing:border-box;"></textarea>
-        <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap">
+        <h2>📝 النص وتحليل الأخطاء</h2>
+        <textarea id="scan-input" rows="3" placeholder="اكتب أو الصق نصاً ألمانياً، أو ارفعه من صورة..." style="width:100%;padding:12px;border-radius:10px;border:1px solid #ddd;font-family:Inter,sans-serif;direction:ltr;text-align:left;font-size:1.1rem;box-sizing:border-box;"></textarea>
+        <button class="btn btn-primary" style="width:100%;margin-top:10px;background:#8e44ad" onclick="analyzeGermanText()">🔎 تحليل الأخطاء بالذكاء الاصطناعي</button>
+        <div id="scan-errors-box" class="hidden" style="margin-top:14px">
+          <div id="scan-highlighted" class="scan-highlighted" dir="ltr"></div>
+          <div id="scan-corrections" class="scan-corrections"></div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap">
           <button class="btn btn-primary" style="flex:1;min-width:140px" onclick="speakScanText()">🔊 استمع للنطق</button>
           <button class="btn" style="flex:1;min-width:140px;background:#2980b9;color:#fff" onclick="translateScanText()">🇸🇦 ترجمة للعربية</button>
         </div>
