@@ -1,4 +1,4 @@
-/* Goethe mit Omar – Full App Logic A1→B2 */
+/* Goethe mit Omar – Full App Logic A1→B2 + Stories */
 const STORAGE_KEY = "goethe_v4";
 const LESSONS = window.LESSONS || [];
 
@@ -90,6 +90,7 @@ var sec=document.getElementById(id);if(sec)sec.classList.add("active");
 var bs=document.querySelectorAll(".nav-btn");for(var j=0;j<bs.length;j++)bs[j].classList.toggle("active",bs[j].getAttribute("data-section")===id);
 if(id==="lessons")filterLessons(currentLevel);
 if(id==="redemittel")filterRedemittel(currentRmLevel);
+if(id==="stories")filterStories(currentStoryLevel);
 window.scrollTo(0,0);
 }
 
@@ -176,6 +177,62 @@ var nq=document.getElementById("next-question-btn");if(nq)nq.classList.remove("h
 function nextQuestion(){currentQuestionIndex++;if(currentQuestionIndex>=currentQuiz.length){alert("أحسنت! أكملت التمرين.");closeQuiz();return;}showQuestion();}
 function closeQuiz(){var area=document.getElementById("quiz-area");if(area)area.classList.add("hidden");}
 
+/* ===== Stories / قراءة ===== */
+var currentStoryLevel = "a1";
+function filterStories(level) {
+  currentStoryLevel = level;
+  var tabs = document.querySelectorAll("[data-story-level]");
+  for (var i = 0; i < tabs.length; i++) {
+    tabs[i].classList.toggle("active", tabs[i].getAttribute("data-story-level") === level);
+  }
+  var list = document.getElementById("stories-list");
+  if (!list) return;
+  var stories = (window.STORIES || []).filter(function(s) { return s.level === level; });
+  var html = "";
+  for (var i = 0; i < stories.length; i++) {
+    var s = stories[i];
+    html += '<div class="lesson-card" onclick="openStory(\'' + s.id + '\')">' +
+      '<div class="lesson-num">' + s.number + '</div>' +
+      '<div class="lesson-info"><h3>' + s.title + '</h3><p>' + (s.titleAr || '') + '</p></div>' +
+      '<div class="lesson-status">📖</div></div>';
+  }
+  list.innerHTML = html || "<div class='card'><p>قريباً قصص لهذا المستوى...</p></div>";
+}
+function openStory(id) {
+  var story = null;
+  var all = window.STORIES || [];
+  for (var i = 0; i < all.length; i++) {
+    if (all[i].id === id) { story = all[i]; break; }
+  }
+  if (!story) return;
+  var badge = document.getElementById("sv-badge");
+  if (badge) {
+    badge.textContent = story.level.toUpperCase();
+    badge.className = "level-badge " + story.level;
+  }
+  var title = document.getElementById("sv-title");
+  if (title) title.textContent = story.title;
+  var content = document.getElementById("story-content");
+  if (content) content.innerHTML = story.content || "";
+  showSection("story-view");
+}
+function speakStory() {
+  var content = document.getElementById("story-content");
+  if (!content) return;
+  var box = content.querySelector(".example-box");
+  var text = box ? box.innerText : content.innerText;
+  if (!text) return;
+  if ("speechSynthesis" in window) {
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(text);
+    u.lang = "de-DE";
+    u.rate = 0.85;
+    speechSynthesis.speak(u);
+  } else {
+    alert("المتصفح لا يدعم النطق");
+  }
+}
+
 /* ===== Scan ===== */
 var scanImageData=null;
 function handleScanImage(event){
@@ -250,15 +307,14 @@ function translateScanText(){
 var t=document.getElementById("scan-input").value.trim();
 if(!t){alert("اكتب نصاً أولاً");return;}
 var box=document.getElementById("scan-translation");box.classList.remove("hidden");box.innerHTML="⏳ جاري الترجمة...";
-// Simple fallback note since no free reliable API without key
-box.innerHTML="<b>الترجمة:</b><br>استخدم Google Translate أو DeepL للصق النص. (يمكن إضافة API لاحقاً)";
+box.innerHTML="<b>الترجمة:</b><br>استخدم Google Translate أو DeepL للصق النص.";
 }
 
 document.addEventListener("DOMContentLoaded",function(){
 updateUI();
 filterLessons("a1");
 filterRedemittel("a1");
-// Drag & drop for scan
+filterStories("a1");
 var zone=document.getElementById("scan-drop");
 if(zone){
 zone.addEventListener("dragover",function(e){e.preventDefault();zone.classList.add("dragover");});
