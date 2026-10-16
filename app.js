@@ -1,1 +1,1 @@
-/* placeholder - will be updated */
+PLACEHOLDER_APP
