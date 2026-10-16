@@ -32,8 +32,8 @@
   <nav class="bottom-nav">
     <button class="nav-btn active" data-section="dashboard" onclick="showSection('dashboard')"><span class="nav-icon">🏠</span><span>رئيسية</span></button>
     <button class="nav-btn" data-section="lessons" onclick="showSection('lessons')"><span class="nav-icon">📚</span><span>دروس</span></button>
+    <button class="nav-btn" data-section="stories" onclick="showSection('stories')"><span class="nav-icon">📖</span><span>قراءة</span></button>
     <button class="nav-btn" data-section="redemittel" onclick="showSection('redemittel')"><span class="nav-icon">💬</span><span>عبارات</span></button>
-    <button class="nav-btn" data-section="practice" onclick="showSection('practice')"><span class="nav-icon">✏️</span><span>تمارين</span></button>
     <button class="nav-btn" data-section="scan" onclick="showSection('scan')"><span class="nav-icon">🔍</span><span>Scan</span></button>
   </nav>
 
@@ -65,7 +65,7 @@
           <div class="roadmap-item"><span class="rm-month">1–2</span><span>A1 كامل + تمارين + نماذج امتحان</span></div>
           <div class="roadmap-item"><span class="rm-month">3–4</span><span>A2 كامل + Perfekt + جمل ثانوية</span></div>
           <div class="roadmap-item"><span class="rm-month">5–6</span><span>B1 · Konjunktiv II · Passiv · عرض تقديمي</span></div>
-          <div class="roadmap-item"><span class="rm-month">7</span><span>B2 · Nominalisierung · نماذج امتحان كاملة</span></div>
+          <div class="roadmap-item"><span class="rm-month">7</span><span>B2 · نماذج غوته كاملة · محاكاة امتحان</span></div>
         </div>
       </div>
     </section>
@@ -90,6 +90,32 @@
       <button id="mark-complete-btn" class="btn btn-primary" style="width:100%;margin-top:20px">✓ أكملت هذا الدرس</button>
     </section>
 
+    <section id="stories" class="section">
+      <div class="card">
+        <h1>📖 قصص قصيرة للقراءة</h1>
+        <p class="subtitle">نصوص متدرجة من A1 إلى B2 مع مفردات وأسئلة فهم</p>
+        <div class="level-tabs" style="margin-bottom:16px">
+          <button class="tab-btn active" data-story-level="a1" onclick="filterStories('a1')">A1</button>
+          <button class="tab-btn" data-story-level="a2" onclick="filterStories('a2')">A2</button>
+          <button class="tab-btn" data-story-level="b1" onclick="filterStories('b1')">B1</button>
+          <button class="tab-btn" data-story-level="b2" onclick="filterStories('b2')">B2</button>
+        </div>
+        <div id="stories-list"></div>
+      </div>
+    </section>
+
+    <section id="story-view" class="section">
+      <button class="btn-back" onclick="showSection('stories')">← رجوع للقصص</button>
+      <div class="lesson-header">
+        <span class="level-badge" id="sv-badge">A1</span>
+        <h1 id="sv-title">عنوان القصة</h1>
+      </div>
+      <div id="story-content" class="lesson-content"></div>
+      <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn btn-primary" style="flex:1" onclick="speakStory()">🔊 استمع للقصة</button>
+      </div>
+    </section>
+
     <section id="redemittel" class="section">
       <h2>💬 عبارات جاهزة (Redemittel)</h2>
       <div class="tabs">
@@ -99,24 +125,6 @@
         <button class="tab-btn" data-rm="b2" onclick="filterRedemittel('b2')">B2</button>
       </div>
       <div id="redemittel-list"></div>
-    </section>
-
-    <section id="practice" class="section">
-      <h2>✏️ تمارين</h2>
-      <div class="practice-grid">
-        <button class="practice-card" onclick="startQuiz('vocab')">📚 مفردات</button>
-        <button class="practice-card" onclick="startQuiz('grammar')">📖 قواعد</button>
-        <button class="practice-card" onclick="startQuiz('fill')">✍️ أكمل</button>
-        <button class="practice-card" onclick="startQuiz('match')">🔗 طابق</button>
-      </div>
-      <div id="quiz-area" class="hidden">
-        <div id="quiz-progress"></div>
-        <div id="quiz-question" class="quiz-question"></div>
-        <div id="quiz-options" class="quiz-options"></div>
-        <div id="quiz-feedback" class="quiz-feedback hidden"></div>
-        <button id="next-question-btn" class="btn btn-primary hidden" onclick="nextQuestion()">التالي</button>
-        <button class="btn" onclick="closeQuiz()">إغلاق</button>
-      </div>
     </section>
 
     <section id="scan" class="section">
@@ -156,6 +164,7 @@
   </main>
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   <script src="lessons.js"></script>
+  <script src="stories.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
