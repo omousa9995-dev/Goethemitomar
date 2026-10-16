@@ -1,14 +1,21 @@
 # Goethe mit Omar
 
-مرجع شامل لتعلم اللغة الألمانية من الصفر إلى B2.
+منصة شخصية لتعلم الألمانية من الصفر إلى B2 (منهج Goethe + Menschen)
 
-**الرابط:** https://omousa9995-dev.github.io/Goethemitomar/
+**الرابط الحي:** https://omousa9995-dev.github.io/Goethemitomar/
 
-## المحتويات
-- دروس مفصلة A1 → B2
+## المميزات
+- دروس غنية منظمة A1 → B2 مع جداول وأمثلة وقواعد
 - عبارات جاهزة (Redemittel) لكل مستوى
-- تمارين وتقدم
-- Scan (OCR + تحليل أخطاء)
-- خريطة طريق 7 أشهر
+- تمارين تفاعلية (مفردات، قواعد، إكمال، مطابقة)
+- Scan: رفع صور + OCR (Tesseract) + تحليل أخطاء (LanguageTool) + نطق + ترجمة
+- تتبع التقدم والأيام المتتالية (LocalStorage)
+- تصميم موبايل أولاً (RTL عربي)
 
-مبني على منهج Goethe + Menschen + محتوى المحادثة الكامل.
+## التقنيات
+- HTML/CSS/JS نقي (GitHub Pages)
+- Tesseract.js للـ OCR
+- LanguageTool API للتصحيح
+- SpeechSynthesis API للنطق
+
+بنيت خصيصاً لعمر – هدف B2 في 7 أشهر.
