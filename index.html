@@ -1,1 +1,161 @@
-PLACEHOLDER_IDX
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#0a7a3e" />
+  <title>Goethe mit Omar | من الصفر إلى B2</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo" onclick="showSection('dashboard')">
+        <span class="logo-icon">🇩🇪</span>
+        <div>
+          <div class="logo-title">Goethe mit Omar</div>
+          <div class="logo-sub">من الصفر إلى B2 · مرجع شامل</div>
+        </div>
+      </div>
+      <div class="header-progress">
+        <div class="progress-info">
+          <span id="overall-percent">0%</span>
+          <span class="progress-label">التقدم</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="overall-bar" style="width:0%"></div></div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="bottom-nav">
+    <button class="nav-btn active" data-section="dashboard" onclick="showSection('dashboard')"><span class="nav-icon">🏠</span><span>رئيسية</span></button>
+    <button class="nav-btn" data-section="lessons" onclick="showSection('lessons')"><span class="nav-icon">📚</span><span>دروس</span></button>
+    <button class="nav-btn" data-section="redemittel" onclick="showSection('redemittel')"><span class="nav-icon">💬</span><span>عبارات</span></button>
+    <button class="nav-btn" data-section="practice" onclick="showSection('practice')"><span class="nav-icon">✏️</span><span>تمارين</span></button>
+    <button class="nav-btn" data-section="scan" onclick="showSection('scan')"><span class="nav-icon">🔍</span><span>Scan</span></button>
+  </nav>
+
+  <main class="main">
+    <section id="dashboard" class="section active">
+      <div class="welcome-card">
+        <h1>مرحباً بك 👋</h1>
+        <p class="welcome-text">هدفك: <strong>B2</strong> خلال <strong>7 أشهر</strong> · منهج Goethe + Menschen</p>
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-value" id="streak-count">0</div><div class="stat-label">أيام متتالية</div></div>
+          <div class="stat-card"><div class="stat-value" id="lessons-done">0</div><div class="stat-label">دروس مكتملة</div></div>
+          <div class="stat-card"><div class="stat-value" id="words-learned">0</div><div class="stat-label">كلمات</div></div>
+          <div class="stat-card"><div class="stat-value" id="days-left">210</div><div class="stat-label">يوم متبقي</div></div>
+        </div>
+      </div>
+      <div class="card"><h2>📅 درس اليوم</h2><div id="today-lesson" class="today-lesson"></div></div>
+      <div class="card">
+        <h2>📊 تقدم المستويات</h2>
+        <div class="levels-progress">
+          <div class="level-item" onclick="filterLessons('a1');showSection('lessons')"><div class="level-header"><span class="level-badge a1">A1</span><span id="a1-percent">0%</span></div><div class="progress-bar small"><div class="progress-fill" id="a1-bar" style="width:0%"></div></div><p class="level-desc">الأساسيات · 650 كلمة · امتحان غوته A1</p></div>
+          <div class="level-item" onclick="filterLessons('a2');showSection('lessons')"><div class="level-header"><span class="level-badge a2">A2</span><span id="a2-percent">0%</span></div><div class="progress-bar small"><div class="progress-fill" id="a2-bar" style="width:0%"></div></div><p class="level-desc">التوسع · 1300 كلمة · جمل ثانوية + Perfekt</p></div>
+          <div class="level-item" onclick="filterLessons('b1');showSection('lessons')"><div class="level-header"><span class="level-badge b1">B1</span><span id="b1-percent">0%</span></div><div class="progress-bar small"><div class="progress-fill" id="b1-bar" style="width:0%"></div></div><p class="level-desc">الاستقلالية · 2400 كلمة · Konjunktiv II + Passiv</p></div>
+          <div class="level-item" onclick="filterLessons('b2');showSection('lessons')"><div class="level-header"><span class="level-badge b2">B2</span><span id="b2-percent">0%</span></div><div class="progress-bar small"><div class="progress-fill" id="b2-bar" style="width:0%"></div></div><p class="level-desc">الطلاقة · 4000+ كلمة · Konjunktiv I + Nominalisierung</p></div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>🗺️ خريطة الطريق (7 أشهر)</h2>
+        <div class="roadmap">
+          <div class="roadmap-item"><span class="rm-month">1–2</span><span>A1 كامل + تمارين + نماذج امتحان</span></div>
+          <div class="roadmap-item"><span class="rm-month">3–4</span><span>A2 كامل + Perfekt + جمل ثانوية</span></div>
+          <div class="roadmap-item"><span class="rm-month">5–6</span><span>B1 · Konjunktiv II · Passiv · عرض تقديمي</span></div>
+          <div class="roadmap-item"><span class="rm-month">7</span><span>B2 · Nominalisierung · نماذج امتحان كاملة</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="lessons" class="section">
+      <div class="tabs">
+        <button class="tab-btn active" data-level="a1" onclick="filterLessons('a1')">A1</button>
+        <button class="tab-btn" data-level="a2" onclick="filterLessons('a2')">A2</button>
+        <button class="tab-btn" data-level="b1" onclick="filterLessons('b1')">B1</button>
+        <button class="tab-btn" data-level="b2" onclick="filterLessons('b2')">B2</button>
+      </div>
+      <div id="lessons-list" class="lessons-list"></div>
+    </section>
+
+    <section id="lesson-view" class="section">
+      <button class="btn-back" onclick="showSection('lessons')">← رجوع</button>
+      <div class="lesson-header">
+        <span class="level-badge" id="lv-badge">A1</span>
+        <h1 id="lv-title">عنوان الدرس</h1>
+      </div>
+      <div id="lesson-content" class="lesson-content"></div>
+      <button id="mark-complete-btn" class="btn btn-primary" style="width:100%;margin-top:20px">✓ أكملت هذا الدرس</button>
+    </section>
+
+    <section id="redemittel" class="section">
+      <h2>💬 عبارات جاهزة (Redemittel)</h2>
+      <div class="tabs">
+        <button class="tab-btn active" data-rm="a1" onclick="filterRedemittel('a1')">A1</button>
+        <button class="tab-btn" data-rm="a2" onclick="filterRedemittel('a2')">A2</button>
+        <button class="tab-btn" data-rm="b1" onclick="filterRedemittel('b1')">B1</button>
+        <button class="tab-btn" data-rm="b2" onclick="filterRedemittel('b2')">B2</button>
+      </div>
+      <div id="redemittel-list"></div>
+    </section>
+
+    <section id="practice" class="section">
+      <h2>✏️ تمارين</h2>
+      <div class="practice-grid">
+        <button class="practice-card" onclick="startQuiz('vocab')">📚 مفردات</button>
+        <button class="practice-card" onclick="startQuiz('grammar')">📖 قواعد</button>
+        <button class="practice-card" onclick="startQuiz('fill')">✍️ أكمل</button>
+        <button class="practice-card" onclick="startQuiz('match')">🔗 طابق</button>
+      </div>
+      <div id="quiz-area" class="hidden">
+        <div id="quiz-progress"></div>
+        <div id="quiz-question" class="quiz-question"></div>
+        <div id="quiz-options" class="quiz-options"></div>
+        <div id="quiz-feedback" class="quiz-feedback hidden"></div>
+        <button id="next-question-btn" class="btn btn-primary hidden" onclick="nextQuestion()">التالي</button>
+        <button class="btn" onclick="closeQuiz()">إغلاق</button>
+      </div>
+    </section>
+
+    <section id="scan" class="section">
+      <h2>🔍 Scan – تحليل النصوص والأخطاء</h2>
+      <div class="card">
+        <h3>رفع صورة (خط يد أو مطبوع)</h3>
+        <div class="scan-upload" id="scan-drop">
+          <input type="file" id="scan-file" accept="image/*" capture="environment" style="display:none" onchange="handleScanImage(event)" />
+          <div class="scan-upload-inner" onclick="document.getElementById('scan-file').click()">
+            <div class="scan-upload-icon">📸</div>
+            <p><strong>اضغط لرفع صورة</strong></p>
+            <p class="hint">من المعرض أو الكاميرا</p>
+          </div>
+        </div>
+        <div id="scan-preview-wrap" class="hidden" style="margin-top:14px;text-align:center">
+          <img id="scan-preview" alt="معاينة" style="max-width:100%;max-height:220px;border-radius:12px;border:2px solid #ddd" />
+          <button class="btn-text" style="margin-top:8px" onclick="clearScanImage()">إزالة الصورة</button>
+        </div>
+        <button id="scan-ocr-btn" class="btn btn-primary" style="width:100%;margin-top:14px" onclick="runOCR()" disabled>🤖 اقرأ النص بالذكاء الاصطناعي</button>
+        <div id="scan-ocr-status" class="hint" style="margin-top:10px;text-align:center"></div>
+      </div>
+      <div class="card">
+        <h2>📝 النص وتحليل الأخطاء</h2>
+        <textarea id="scan-input" rows="3" placeholder="اكتب أو الصق نصًا ألمانيًا..." style="width:100%;padding:12px;border-radius:10px;border:1px solid #ddd;font-family:Inter,sans-serif;direction:ltr;text-align:left;font-size:1.1rem;box-sizing:border-box;"></textarea>
+        <button class="btn btn-primary" style="width:100%;margin-top:10px;background:#8e44ad" onclick="analyzeGermanText()">🔎 تحليل الأخطاء بالذكاء الاصطناعي</button>
+        <div id="scan-errors-box" class="hidden" style="margin-top:14px">
+          <div id="scan-highlighted" class="scan-highlighted" dir="ltr"></div>
+          <div id="scan-corrections" class="scan-corrections"></div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap">
+          <button class="btn btn-primary" style="flex:1;min-width:140px" onclick="speakScanText()">🔊 استمع للنطق</button>
+          <button class="btn" style="flex:1;min-width:140px;background:#2980b9;color:#fff" onclick="translateScanText()">🇸🇦 ترجمة للعربية</button>
+        </div>
+        <div id="scan-translation" class="hidden" style="margin-top:14px;padding:14px;background:#e8f5ee;border-radius:10px;border-right:4px solid #0a7a3e"></div>
+      </div>
+    </section>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  <script src="lessons.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
