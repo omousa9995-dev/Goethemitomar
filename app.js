@@ -1,4 +1,4 @@
-/* Goethe mit Omar – Full App Logic A1→B2 + Stories */
+/* Goethe mit Omar – Full App Logic A1→B2 + Stories + Exams */
 const STORAGE_KEY = "goethe_v4";
 const LESSONS = window.LESSONS || [];
 
@@ -91,6 +91,7 @@ var bs=document.querySelectorAll(".nav-btn");for(var j=0;j<bs.length;j++)bs[j].c
 if(id==="lessons")filterLessons(currentLevel);
 if(id==="redemittel")filterRedemittel(currentRmLevel);
 if(id==="stories")filterStories(currentStoryLevel);
+if(id==="exams")filterExams(currentExamLevel);
 window.scrollTo(0,0);
 }
 
@@ -233,6 +234,46 @@ function speakStory() {
   }
 }
 
+/* ===== Exams / امتحانات Goethe ===== */
+var currentExamLevel = "a1";
+function filterExams(level) {
+  currentExamLevel = level;
+  var tabs = document.querySelectorAll("[data-exam-level]");
+  for (var i = 0; i < tabs.length; i++) {
+    tabs[i].classList.toggle("active", tabs[i].getAttribute("data-exam-level") === level);
+  }
+  var list = document.getElementById("exams-list");
+  if (!list) return;
+  var exams = (window.EXAMS || []).filter(function(e) { return e.level === level; });
+  var html = "";
+  for (var i = 0; i < exams.length; i++) {
+    var e = exams[i];
+    html += '<div class="lesson-card" onclick="openExam(\'' + e.id + '\')">' +
+      '<div class="lesson-num">' + e.number + '</div>' +
+      '<div class="lesson-info"><h3>' + e.title + '</h3><p>' + (e.titleDe || '') + '</p></div>' +
+      '<div class="lesson-status">📝</div></div>';
+  }
+  list.innerHTML = html || "<div class='card'><p>قريباً نماذج لهذا المستوى...</p></div>";
+}
+function openExam(id) {
+  var exam = null;
+  var all = window.EXAMS || [];
+  for (var i = 0; i < all.length; i++) {
+    if (all[i].id === id) { exam = all[i]; break; }
+  }
+  if (!exam) return;
+  var badge = document.getElementById("ev-badge");
+  if (badge) {
+    badge.textContent = exam.level.toUpperCase();
+    badge.className = "level-badge " + exam.level;
+  }
+  var title = document.getElementById("ev-title");
+  if (title) title.textContent = exam.title;
+  var content = document.getElementById("exam-content");
+  if (content) content.innerHTML = exam.content || "";
+  showSection("exam-view");
+}
+
 /* ===== Scan ===== */
 var scanImageData=null;
 function handleScanImage(event){
@@ -294,31 +335,26 @@ var m=data.matches[i];var rep=(m.replacements&&m.replacements[0])?m.replacements
 chtml+="<div class='scan-corr-item'><b style='color:#c0392b'>"+m.context.text.substr(m.context.offset,m.context.length)+"</b> → <b style='color:#27ae60'>"+rep+"</b><br><small>"+m.message+"</small></div>";
 }
 corr.innerHTML=chtml;
-}catch(e){hl.innerHTML=text;corr.innerHTML="<p>تعذر الاتصال بخدمة التصحيح. تحقق من الإنترنت.</p>";console.error(e);}
+}catch(err){hl.innerHTML=text;corr.innerHTML="<p>تعذر الاتصال بخدمة التحليل. تحقق من الإنترنت.</p>";console.error(err);}
 }
-
 function speakScanText(){
-var t=document.getElementById("scan-input").value.trim();
-if(!t){alert("اكتب نصاً ألمانياً أولاً");return;}
-if("speechSynthesis" in window){speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(t);u.lang="de-DE";u.rate=0.85;speechSynthesis.speak(u);}else alert("المتصفح لا يدعم النطق");
+var text=document.getElementById("scan-input").value.trim();
+if(!text){alert("لا يوجد نص");return;}
+if("speechSynthesis" in window){speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(text);u.lang="de-DE";u.rate=0.85;speechSynthesis.speak(u);}else{alert("المتصفح لا يدعم النطق");}
 }
-
 function translateScanText(){
-var t=document.getElementById("scan-input").value.trim();
-if(!t){alert("اكتب نصاً أولاً");return;}
+var text=document.getElementById("scan-input").value.trim();
+if(!text){alert("لا يوجد نص");return;}
 var box=document.getElementById("scan-translation");box.classList.remove("hidden");box.innerHTML="⏳ جاري الترجمة...";
-box.innerHTML="<b>الترجمة:</b><br>استخدم Google Translate أو DeepL للصق النص.";
+// Simple fallback note
+box.innerHTML="<b>ترجمة تقريبية:</b><br>استخدم Google Translate أو DeepL للنص الكامل. النص الألماني جاهز في المربع أعلاه.";
 }
 
+// Init
 document.addEventListener("DOMContentLoaded",function(){
 updateUI();
 filterLessons("a1");
 filterRedemittel("a1");
 filterStories("a1");
-var zone=document.getElementById("scan-drop");
-if(zone){
-zone.addEventListener("dragover",function(e){e.preventDefault();zone.classList.add("dragover");});
-zone.addEventListener("dragleave",function(){zone.classList.remove("dragover");});
-zone.addEventListener("drop",function(e){e.preventDefault();zone.classList.remove("dragover");var files=e.dataTransfer&&e.dataTransfer.files;if(files&&files[0]){var input=document.getElementById("scan-file");var dt=new DataTransfer();dt.items.add(files[0]);input.files=dt.files;handleScanImage({target:input});}});
-}
+filterExams("a1");
 });
