@@ -34,6 +34,7 @@
     <button class="nav-btn" data-section="lessons" onclick="showSection('lessons')"><span class="nav-icon">📚</span><span>دروس</span></button>
     <button class="nav-btn" data-section="stories" onclick="showSection('stories')"><span class="nav-icon">📖</span><span>قراءة</span></button>
     <button class="nav-btn" data-section="redemittel" onclick="showSection('redemittel')"><span class="nav-icon">💬</span><span>عبارات</span></button>
+    <button class="nav-btn" data-section="exams" onclick="showSection('exams')"><span class="nav-icon">📝</span><span>امتحانات</span></button>
     <button class="nav-btn" data-section="scan" onclick="showSection('scan')"><span class="nav-icon">🔍</span><span>Scan</span></button>
   </nav>
 
@@ -127,6 +128,29 @@
       <div id="redemittel-list"></div>
     </section>
 
+    <section id="exams" class="section">
+      <div class="card">
+        <h1>📝 نماذج امتحانات Goethe</h1>
+        <p class="subtitle">نماذج تدريب واقعية من A1 إلى B2 (Lesen · Schreiben · Sprechen)</p>
+        <div class="level-tabs" style="margin-bottom:16px">
+          <button class="tab-btn active" data-exam-level="a1" onclick="filterExams('a1')">A1</button>
+          <button class="tab-btn" data-exam-level="a2" onclick="filterExams('a2')">A2</button>
+          <button class="tab-btn" data-exam-level="b1" onclick="filterExams('b1')">B1</button>
+          <button class="tab-btn" data-exam-level="b2" onclick="filterExams('b2')">B2</button>
+        </div>
+        <div id="exams-list"></div>
+      </div>
+    </section>
+
+    <section id="exam-view" class="section">
+      <button class="btn-back" onclick="showSection('exams')">← رجوع للامتحانات</button>
+      <div class="lesson-header">
+        <span class="level-badge" id="ev-badge">A1</span>
+        <h1 id="ev-title">عنوان الامتحان</h1>
+      </div>
+      <div id="exam-content" class="lesson-content"></div>
+    </section>
+
     <section id="scan" class="section">
       <h2>🔍 Scan – تحليل النصوص والأخطاء</h2>
       <div class="card">
@@ -165,6 +189,7 @@
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   <script src="lessons.js"></script>
   <script src="stories.js"></script>
+  <script src="exams.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
