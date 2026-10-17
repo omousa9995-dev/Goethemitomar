@@ -5,8 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="theme-color" content="#0a7a3e" />
+  <meta name="description" content="منصة شاملة لتعلم الألمانية من A1 إلى B2 – دروس، قصص، امتحانات، موارد" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="manifest" href="manifest.json" />
   <title>Goethe mit Omar | من الصفر إلى B2</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -35,6 +40,7 @@
     <button class="nav-btn" data-section="stories" onclick="showSection('stories')"><span class="nav-icon">📖</span><span>قراءة</span></button>
     <button class="nav-btn" data-section="redemittel" onclick="showSection('redemittel')"><span class="nav-icon">💬</span><span>عبارات</span></button>
     <button class="nav-btn" data-section="exams" onclick="showSection('exams')"><span class="nav-icon">📝</span><span>امتحانات</span></button>
+    <button class="nav-btn" data-section="resources" onclick="showSection('resources')"><span class="nav-icon">🔗</span><span>موارد</span></button>
     <button class="nav-btn" data-section="scan" onclick="showSection('scan')"><span class="nav-icon">🔍</span><span>Scan</span></button>
   </nav>
 
@@ -131,7 +137,7 @@
     <section id="exams" class="section">
       <div class="card">
         <h1>📝 نماذج امتحانات Goethe</h1>
-        <p class="subtitle">نماذج تدريب واقعية من A1 إلى B2 (Lesen · Schreiben · Sprechen)</p>
+        <p class="subtitle">نماذج تدريب من A1 إلى B2 (Lesen · Schreiben · Sprechen)</p>
         <div class="level-tabs" style="margin-bottom:16px">
           <button class="tab-btn active" data-exam-level="a1" onclick="filterExams('a1')">A1</button>
           <button class="tab-btn" data-exam-level="a2" onclick="filterExams('a2')">A2</button>
@@ -149,6 +155,50 @@
         <h1 id="ev-title">عنوان الامتحان</h1>
       </div>
       <div id="exam-content" class="lesson-content"></div>
+    </section>
+
+    <section id="resources" class="section">
+      <div class="card">
+        <h1>🔗 موارد مهمة</h1>
+        <p class="subtitle">قنوات يوتيوب + روابط غوته الرسمية + أدوات مفيدة</p>
+      </div>
+      <div class="card">
+        <h2>📺 قنوات يوتيوب موصى بها</h2>
+        <div class="resource-list">
+          <a class="resource-item" href="https://www.youtube.com/@EasyGerman" target="_blank" rel="noopener"><span class="res-icon">🇩🇪</span><div><strong>Easy German</strong><p>مقابلات حقيقية في الشارع + ترجمة – ممتازة للاستماع</p></div></a>
+          <a class="resource-item" href="https://www.youtube.com/@DeutschmitRieke" target="_blank" rel="noopener"><span class="res-icon">👩‍🏫</span><div><strong>Deutsch mit Rieke</strong><p>شرح واضح للقواعد والمفردات بطريقة ممتعة</p></div></a>
+          <a class="resource-item" href="https://www.youtube.com/@LearnGermanwithAnja" target="_blank" rel="noopener"><span class="res-icon">📚</span><div><strong>Learn German with Anja</strong><p>دروس منظمة من A1 إلى B2 مع تمارين</p></div></a>
+          <a class="resource-item" href="https://www.youtube.com/@DeutschfuerEuch" target="_blank" rel="noopener"><span class="res-icon">💬</span><div><strong>Deutsch für Euch</strong><p>شرح عامية ألمانية + ثقافة + قواعد</p></div></a>
+          <a class="resource-item" href="https://www.youtube.com/@GoetheInstitut" target="_blank" rel="noopener"><span class="res-icon">🏛️</span><div><strong>Goethe-Institut</strong><p>القناة الرسمية لمعهد غوته</p></div></a>
+        </div>
+      </div>
+      <div class="card">
+        <h2>🏛️ روابط غوته الرسمية</h2>
+        <div class="resource-list">
+          <a class="resource-item" href="https://www.goethe.de/en/spr/prf.html" target="_blank" rel="noopener"><span class="res-icon">📋</span><div><strong>نظرة عامة على امتحانات Goethe</strong><p>A1–C2 · معلومات رسمية</p></div></a>
+          <a class="resource-item" href="https://www.goethe.de/ins/de/en/prf/exc.html" target="_blank" rel="noopener"><span class="res-icon">📝</span><div><strong>مواد التدريب الرسمية (Modellsätze)</strong><p>نماذج مجانية من معهد غوته</p></div></a>
+          <a class="resource-item" href="https://www.goethe.de/en/spr/prf/ueb/pa2.html" target="_blank" rel="noopener"><span class="res-icon">🅰️</span><div><strong>تدريب امتحان A2</strong><p>نماذج قابلة للطباعة + أونلاين</p></div></a>
+          <a class="resource-item" href="https://www.goethe.de/en/spr/kup/prf.html" target="_blank" rel="noopener"><span class="res-icon">📅</span><div><strong>مواعيد ومراكز الامتحانات</strong><p>ابحث عن أقرب مركز اختبار</p></div></a>
+        </div>
+      </div>
+      <div class="card">
+        <h2>🛠️ أدوات مفيدة</h2>
+        <div class="resource-list">
+          <a class="resource-item" href="https://www.dw.com/en/learn-german/s-2469" target="_blank" rel="noopener"><span class="res-icon">📡</span><div><strong>Deutsche Welle – Learn German</strong><p>دروس مجانية + أخبار بطيئة</p></div></a>
+          <a class="resource-item" href="https://languagetool.org/" target="_blank" rel="noopener"><span class="res-icon">✍️</span><div><strong>LanguageTool</strong><p>مدقق قواعد وإملاء ألماني</p></div></a>
+          <a class="resource-item" href="https://www.deepl.com/translator" target="_blank" rel="noopener"><span class="res-icon">🌐</span><div><strong>DeepL Translator</strong><p>أفضل ترجمة ألماني ↔ عربي</p></div></a>
+        </div>
+      </div>
+      <div class="card" style="background:#e8f5ee">
+        <h2>📱 استخدام بدون إنترنت</h2>
+        <p>بعد زيارة الموقع مرة واحدة يعمل دون اتصال:</p>
+        <ul>
+          <li>الدروس والقصص والامتحانات محلية</li>
+          <li>التقدم يُحفظ على جهازك</li>
+          <li>قسم Scan والروابط تحتاج إنترنت</li>
+        </ul>
+        <p style="margin-top:10px"><b>نصيحة:</b> أضف الموقع إلى الشاشة الرئيسية لتجربة أفضل.</p>
+      </div>
     </section>
 
     <section id="scan" class="section">
@@ -191,5 +241,14 @@
   <script src="stories.js"></script>
   <script src="exams.js"></script>
   <script src="app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('./sw.js')
+          .then(function(reg) { console.log('SW registered'); })
+          .catch(function(err) { console.log('SW failed', err); });
+      });
+    }
+  </script>
 </body>
 </html>
