@@ -1,4 +1,4 @@
-const CACHE_NAME = 'goethe-omar-v5';
+const CACHE_NAME = 'goethe-omar-v6';
 const CORE_ASSETS = [
   './',
   './index.html',
