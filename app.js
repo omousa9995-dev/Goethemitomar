@@ -178,7 +178,6 @@ var nq=document.getElementById("next-question-btn");if(nq)nq.classList.remove("h
 function nextQuestion(){currentQuestionIndex++;if(currentQuestionIndex>=currentQuiz.length){alert("أحسنت! أكملت التمرين.");closeQuiz();return;}showQuestion();}
 function closeQuiz(){var area=document.getElementById("quiz-area");if(area)area.classList.add("hidden");}
 
-/* ===== تصدير / استيراد التقدم (للنقل بين الأجهزة) ===== */
 function exportProgress() {
   try {
     var data = loadProgress();
@@ -187,42 +186,28 @@ function exportProgress() {
     var json = JSON.stringify(data, null, 2);
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(json).then(function() {
-        alert("✅ تم نسخ بيانات التقدم إلى الحافظة!\n\nالصقها في ملف نصي أو أرسلها لنفسك (واتساب / إيميل) ثم استوردها على الجهاز الآخر.");
-      }).catch(function() {
-        showExportModal(json);
-      });
-    } else {
-      showExportModal(json);
-    }
-  } catch (e) {
-    alert("حدث خطأ أثناء التصدير: " + e.message);
-  }
+        alert("✅ تم نسخ بيانات التقدم!\nأرسلها لنفسك ثم استوردها على الجهاز الآخر.");
+      }).catch(function() { showExportModal(json); });
+    } else { showExportModal(json); }
+  } catch (e) { alert("خطأ: " + e.message); }
 }
-
 function showExportModal(json) {
   var existing = document.getElementById("export-modal");
   if (existing) existing.remove();
   var modal = document.createElement("div");
   modal.id = "export-modal";
   modal.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px;";
-  modal.innerHTML = '<div style="background:#fff;border-radius:16px;padding:20px;max-width:400px;width:100%;max-height:80vh;overflow:auto">' +
-    '<h3 style="margin-bottom:12px;color:#0a7a3e">📤 نسخ بيانات التقدم</h3>' +
-    '<p style="font-size:0.9rem;margin-bottom:10px">انسخ النص بالكامل وأرسله لنفسك:</p>' +
-    '<textarea id="export-textarea" readonly style="width:100%;height:120px;font-size:0.75rem;direction:ltr;text-align:left;padding:8px;border-radius:8px;border:1px solid #ddd;font-family:monospace"></textarea>' +
-    '<button class="btn btn-primary" style="width:100%;margin-top:12px" onclick="document.getElementById(\'export-textarea\').select();document.execCommand(\'copy\');alert(\'تم النسخ!\')">📋 نسخ</button>' +
-    '<button class="btn" style="width:100%;margin-top:8px;background:#eee" onclick="document.getElementById(\'export-modal\').remove()">إغلاق</button>' +
-    '</div>';
+  modal.innerHTML = '<div style="background:#fff;border-radius:16px;padding:20px;max-width:400px;width:100%"><h3 style="margin-bottom:12px;color:#0a7a3e">📤 نسخ التقدم</h3><textarea id="export-textarea" readonly style="width:100%;height:120px;font-size:0.75rem;direction:ltr;padding:8px"></textarea><button class="btn btn-primary" style="width:100%;margin-top:12px" onclick="document.getElementById(\'export-textarea\').select();document.execCommand(\'copy\');alert(\'تم النسخ!\')">📋 نسخ</button><button class="btn" style="width:100%;margin-top:8px;background:#eee" onclick="document.getElementById(\'export-modal\').remove()">إغلاق</button></div>';
   document.body.appendChild(modal);
   document.getElementById("export-textarea").value = json;
 }
-
 function importProgress() {
-  var json = prompt("الصق هنا بيانات التقدم التي نسختها من الجهاز الآخر:");
+  var json = prompt("الصق بيانات التقدم هنا:");
   if (!json || !json.trim()) return;
   try {
     var data = JSON.parse(json.trim());
     if (!data || typeof data !== "object") throw new Error("بيانات غير صالحة");
-    if (!confirm("هل تريد استبدال التقدم الحالي على هذا الجهاز بالبيانات المستوردة؟\n\n(الدروس المكتملة: " + (data.completedLessons ? data.completedLessons.length : 0) + ")")) return;
+    if (!confirm("استبدال التقدم الحالي؟ (دروس: " + (data.completedLessons ? data.completedLessons.length : 0) + ")")) return;
     var clean = {
       completedLessons: Array.isArray(data.completedLessons) ? data.completedLessons : [],
       streak: typeof data.streak === "number" ? data.streak : 0,
@@ -233,46 +218,32 @@ function importProgress() {
     saveProgress(clean);
     progress = clean;
     updateUI();
-    alert("✅ تم استيراد التقدم بنجاح!\nالدروس المكتملة: " + clean.completedLessons.length);
+    alert("✅ تم الاستيراد! دروس: " + clean.completedLessons.length);
     if (typeof filterLessons === "function") filterLessons(currentLevel || "a1");
-  } catch (e) {
-    alert("❌ فشل الاستيراد. تأكد أنك لصقت البيانات كاملة.\n" + e.message);
-  }
+  } catch (e) { alert("فشل الاستيراد: " + e.message); }
 }
 
-/* ===== Stories / قراءة ===== */
 var currentStoryLevel = "a1";
 function filterStories(level) {
   currentStoryLevel = level;
   var tabs = document.querySelectorAll("[data-story-level]");
-  for (var i = 0; i < tabs.length; i++) {
-    tabs[i].classList.toggle("active", tabs[i].getAttribute("data-story-level") === level);
-  }
+  for (var i = 0; i < tabs.length; i++) tabs[i].classList.toggle("active", tabs[i].getAttribute("data-story-level") === level);
   var list = document.getElementById("stories-list");
   if (!list) return;
   var stories = (window.STORIES || []).filter(function(s) { return s.level === level; });
   var html = "";
   for (var i = 0; i < stories.length; i++) {
     var s = stories[i];
-    html += '<div class="lesson-card" onclick="openStory(\'' + s.id + '\')">' +
-      '<div class="lesson-num">' + s.number + '</div>' +
-      '<div class="lesson-info"><h3>' + s.title + '</h3><p>' + (s.titleAr || '') + '</p></div>' +
-      '<div class="lesson-status">📖</div></div>';
+    html += '<div class="lesson-card" onclick="openStory(\'' + s.id + '\')"><div class="lesson-num">' + s.number + '</div><div class="lesson-info"><h3>' + s.title + '</h3><p>' + (s.titleAr || '') + '</p></div><div class="lesson-status">📖</div></div>';
   }
-  list.innerHTML = html || "<div class='card'><p>قريباً قصص لهذا المستوى...</p></div>";
+  list.innerHTML = html || "<div class='card'><p>قريباً...</p></div>";
 }
 function openStory(id) {
-  var story = null;
-  var all = window.STORIES || [];
-  for (var i = 0; i < all.length; i++) {
-    if (all[i].id === id) { story = all[i]; break; }
-  }
+  var story = null, all = window.STORIES || [];
+  for (var i = 0; i < all.length; i++) if (all[i].id === id) { story = all[i]; break; }
   if (!story) return;
   var badge = document.getElementById("sv-badge");
-  if (badge) {
-    badge.textContent = story.level.toUpperCase();
-    badge.className = "level-badge " + story.level;
-  }
+  if (badge) { badge.textContent = story.level.toUpperCase(); badge.className = "level-badge " + story.level; }
   var title = document.getElementById("sv-title");
   if (title) title.textContent = story.title;
   var content = document.getElementById("story-content");
@@ -288,47 +259,32 @@ function speakStory() {
   if ("speechSynthesis" in window) {
     speechSynthesis.cancel();
     var u = new SpeechSynthesisUtterance(text);
-    u.lang = "de-DE";
-    u.rate = 0.85;
+    u.lang = "de-DE"; u.rate = 0.85;
     speechSynthesis.speak(u);
-  } else {
-    alert("المتصفح لا يدعم النطق");
-  }
+  } else alert("المتصفح لا يدعم النطق");
 }
 
-/* ===== Exams / امتحانات Goethe ===== */
 var currentExamLevel = "a1";
 function filterExams(level) {
   currentExamLevel = level;
   var tabs = document.querySelectorAll("[data-exam-level]");
-  for (var i = 0; i < tabs.length; i++) {
-    tabs[i].classList.toggle("active", tabs[i].getAttribute("data-exam-level") === level);
-  }
+  for (var i = 0; i < tabs.length; i++) tabs[i].classList.toggle("active", tabs[i].getAttribute("data-exam-level") === level);
   var list = document.getElementById("exams-list");
   if (!list) return;
   var exams = (window.EXAMS || []).filter(function(e) { return e.level === level; });
   var html = "";
   for (var i = 0; i < exams.length; i++) {
     var e = exams[i];
-    html += '<div class="lesson-card" onclick="openExam(\'' + e.id + '\')">' +
-      '<div class="lesson-num">' + e.number + '</div>' +
-      '<div class="lesson-info"><h3>' + e.title + '</h3><p>' + (e.titleDe || '') + '</p></div>' +
-      '<div class="lesson-status">📝</div></div>';
+    html += '<div class="lesson-card" onclick="openExam(\'' + e.id + '\')"><div class="lesson-num">' + e.number + '</div><div class="lesson-info"><h3>' + e.title + '</h3><p>' + (e.titleDe || '') + '</p></div><div class="lesson-status">📝</div></div>';
   }
-  list.innerHTML = html || "<div class='card'><p>قريباً نماذج لهذا المستوى...</p></div>";
+  list.innerHTML = html || "<div class='card'><p>قريباً...</p></div>";
 }
 function openExam(id) {
-  var exam = null;
-  var all = window.EXAMS || [];
-  for (var i = 0; i < all.length; i++) {
-    if (all[i].id === id) { exam = all[i]; break; }
-  }
+  var exam = null, all = window.EXAMS || [];
+  for (var i = 0; i < all.length; i++) if (all[i].id === id) { exam = all[i]; break; }
   if (!exam) return;
   var badge = document.getElementById("ev-badge");
-  if (badge) {
-    badge.textContent = exam.level.toUpperCase();
-    badge.className = "level-badge " + exam.level;
-  }
+  if (badge) { badge.textContent = exam.level.toUpperCase(); badge.className = "level-badge " + exam.level; }
   var title = document.getElementById("ev-title");
   if (title) title.textContent = exam.title;
   var content = document.getElementById("exam-content");
@@ -336,17 +292,16 @@ function openExam(id) {
   showSection("exam-view");
 }
 
-/* ===== Scan ===== */
 var scanImageData=null;
 function handleScanImage(event){
 var file=event.target.files&&event.target.files[0];if(!file)return;
-if(!file.type.match(/^image\//)){alert("الرجاء اختيار صورة فقط");return;}
+if(!file.type.match(/^image\//)){alert("اختر صورة فقط");return;}
 var reader=new FileReader();
 reader.onload=function(e){scanImageData=e.target.result;
 document.getElementById("scan-preview").src=scanImageData;
 document.getElementById("scan-preview-wrap").classList.remove("hidden");
 document.getElementById("scan-ocr-btn").disabled=false;
-document.getElementById("scan-ocr-status").textContent="الصورة جاهزة — اضغط اقرأ النص";};
+document.getElementById("scan-ocr-status").textContent="الصورة جاهزة";};
 reader.readAsDataURL(file);
 }
 function clearScanImage(){
@@ -358,22 +313,21 @@ document.getElementById("scan-ocr-status").textContent="";
 }
 async function runOCR(){
 if(!scanImageData){alert("ارفع صورة أولاً");return;}
-if(typeof Tesseract==="undefined"){alert("مكتبة القراءة لم تُحمَّل. تأكد من الإنترنت وحدّث الصفحة.");return;}
+if(typeof Tesseract==="undefined"){alert("مكتبة القراءة لم تُحمَّل");return;}
 var btn=document.getElementById("scan-ocr-btn");var status=document.getElementById("scan-ocr-status");
-btn.disabled=true;status.innerHTML="⏳ جاري تحليل الصورة...<div class='ocr-progress'><div class='ocr-progress-bar' id='ocr-bar'></div></div>";
+btn.disabled=true;status.innerHTML="⏳ جاري التحليل...";
 try{
 var result=await Tesseract.recognize(scanImageData,"deu",{logger:function(m){
 if(m.status==="recognizing text"&&m.progress!=null){
 var pct=Math.round(m.progress*100);
-var bar=document.getElementById("ocr-bar");if(bar)bar.style.width=pct+"%";
-status.innerHTML="⏳ قراءة النص... "+pct+"%<div class='ocr-progress'><div class='ocr-progress-bar' id='ocr-bar' style='width:"+pct+"%'></div></div>";
+status.textContent="⏳ قراءة... "+pct+"%";
 }}});
 var text=(result&&result.data&&result.data.text)?result.data.text.trim():"";
-if(!text){status.textContent="لم يُعثر على نص واضح. جرّب صورة أوضح.";btn.disabled=false;return;}
+if(!text){status.textContent="لم يُعثر على نص";btn.disabled=false;return;}
 document.getElementById("scan-input").value=text;
-status.textContent="✅ تم استخراج النص بنجاح!";
+status.textContent="✅ تم استخراج النص";
 btn.disabled=false;
-}catch(err){console.error(err);status.textContent="❌ فشلت القراءة. جرّب صورة أوضح.";btn.disabled=false;}
+}catch(err){console.error(err);status.textContent="❌ فشلت القراءة";btn.disabled=false;}
 }
 
 function escapeHtml(s){if(!s)return"";return String(s).replace(/&/g,"&").replace(/</g,"<").replace(/>/g,">").replace(/"/g,""");}
@@ -381,35 +335,29 @@ function escapeAttr(s){return escapeHtml(s).replace(/'/g,"&#39;");}
 
 async function analyzeGermanText(){
 var text=(document.getElementById("scan-input").value||"").trim();
-if(!text){alert("اكتب أو الصق نصًا ألمانيًا أولاً");return;}
+if(!text){alert("اكتب نصًا ألمانيًا أولاً");return;}
 var box=document.getElementById("scan-errors-box");var hl=document.getElementById("scan-highlighted");var corr=document.getElementById("scan-corrections");
 box.classList.remove("hidden");hl.innerHTML="⏳ جاري التحليل...";corr.innerHTML="";
 try{
 var res=await fetch("https://api.languagetool.org/v2/check",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:"text="+encodeURIComponent(text)+"&language=de-DE&enabledOnly=false"});
 if(!res.ok)throw new Error("API "+res.status);
 var data=await res.json();var matches=data.matches||[];
-if(matches.length===0){hl.innerHTML=escapeHtml(text);corr.innerHTML="<div class='scan-ok-banner'>✅ لا توجد أخطاء! النص صحيح.</div>";return;}
+if(matches.length===0){hl.innerHTML=escapeHtml(text);corr.innerHTML="<div class='scan-ok-banner'>✅ لا توجد أخطاء!</div>";return;}
 matches.sort(function(a,b){return b.offset-a.offset});
 var html=text,items=[];
 for(var i=0;i<matches.length;i++){
 var m=matches[i],start=m.offset,end=m.offset+m.length,wrong=text.substring(start,end);
 var suggestion=(m.replacements&&m.replacements[0])?m.replacements[0].value:"—";
-var msg=m.message||"",msgAr=translateErrorMsg(msg,m.rule);
+var msg=m.message||"";
 html=html.substring(0,start)+'<span class="scan-err" title="'+escapeAttr(msg)+'">'+escapeHtml(wrong)+"</span>"+html.substring(end);
-items.push({wrong:wrong,right:suggestion,msg:msgAr||msg});
+items.push({wrong:wrong,right:suggestion,msg:msg});
 }
 items.reverse();hl.innerHTML=html;
 var list="";for(var j=0;j<items.length;j++){var it=items[j];list+="<div class='scan-corr-item'><div><span class='wrong'>"+escapeHtml(it.wrong)+"</span> → <span class='right'>"+escapeHtml(it.right)+"</span></div><div class='msg'>"+escapeHtml(it.msg)+"</div></div>";}
 corr.innerHTML="<p style='font-weight:700;margin-bottom:8px;color:#c0392b'>وُجد "+items.length+" خطأ:</p>"+list;
-var corrected=text;matches.sort(function(a,b){return b.offset-a.offset});
-for(var k=0;k<matches.length;k++){var mk=matches[k];if(mk.replacements&&mk.replacements[0])corrected=corrected.substring(0,mk.offset)+mk.replacements[0].value+corrected.substring(mk.offset+mk.length);}
-window._scanCorrectedText=corrected;
-corr.innerHTML+="<button class='btn btn-primary' style='width:100%;margin-top:12px;background:#27ae60' onclick='useCorrectedText()'>✅ استخدم النص المُصحَّح</button>";
-}catch(e){console.error(e);hl.innerHTML=escapeHtml(text);corr.innerHTML="<div class='scan-corr-item'><div class='msg'>تعذر الاتصال بخدمة التحليل. يمكنك المتابعة للنطق والترجمة.</div></div>";}
+}catch(e){console.error(e);hl.innerHTML=escapeHtml(text);corr.innerHTML="<div class='scan-corr-item'><div class='msg'>تعذر الاتصال بخدمة التحليل.</div></div>";}
 }
-function translateErrorMsg(msg,rule){if(!msg)return"";var m=msg.toLowerCase();if(m.indexOf("spelling")>=0||m.indexOf("rechtschreib")>=0)return"خطأ إملائي";if(m.indexOf("grammar")>=0||m.indexOf("grammatik")>=0)return"خطأ قواعدي";if(m.indexOf("uppercase")>=0||m.indexOf("großschreibung")>=0)return"يجب أن تبدأ بحرف كبير";if(m.indexOf("verb")>=0)return"مشكلة في تصريف الفعل أو موضعه";if(m.indexOf("artikel")>=0||m.indexOf("article")>=0)return"خطأ في أداة التعريف";if(rule&&rule.description)return rule.description;return msg;}
-function useCorrectedText(){if(window._scanCorrectedText){document.getElementById("scan-input").value=window._scanCorrectedText;analyzeGermanText();}}
-function speakScanText(){var text=(document.getElementById("scan-input").value||"").trim();if(!text){alert("لا يوجد نص");return;}if("speechSynthesis" in window){speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(text);u.lang="de-DE";u.rate=0.9;speechSynthesis.speak(u);}else alert("المتصفح لا يدعم النطق");}
+function speakScanText(){var text=(document.getElementById("scan-input").value||"").trim();if(!text){alert("لا يوجد نص");return;}if("speechSynthesis" in window){speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(text);u.lang="de-DE";u.rate=0.9;speechSynthesis.speak(u);}else alert("لا يدعم النطق");}
 async function translateScanText(){var text=(document.getElementById("scan-input").value||"").trim();if(!text){alert("لا يوجد نص");return;}var box=document.getElementById("scan-translation");box.classList.remove("hidden");box.innerHTML="⏳ جاري الترجمة...";try{var url="https://api.mymemory.translated.net/get?q="+encodeURIComponent(text.substring(0,500))+"&langpair=de|ar";var res=await fetch(url);var data=await res.json();var translated=(data&&data.responseData&&data.responseData.translatedText)?data.responseData.translatedText:"تعذرت الترجمة";box.innerHTML="<strong>🇸🇦 الترجمة:</strong><br>"+escapeHtml(translated);}catch(e){box.innerHTML="تعذر الاتصال بخدمة الترجمة.";}}
 
 document.addEventListener("DOMContentLoaded",function(){updateUI();filterLessons("a1");filterRedemittel("a1");if(typeof filterStories==="function")filterStories("a1");if(typeof filterExams==="function")filterExams("a1");});
