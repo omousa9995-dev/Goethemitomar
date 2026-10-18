@@ -1,6 +1,7 @@
 /* Goethe mit Omar - App Logic */
 const STORAGE_KEY = "goethe_v4";
-const LESSONS = window.LESSONS || [];
+// IMPORTANT: do not redeclare LESSONS - it comes from lessons.js as window.LESSONS
+function getLessons(){ return window.LESSONS || []; }
 
 const REDEMITTEL = {
 a1:[
@@ -26,6 +27,7 @@ function saveProgress(p){localStorage.setItem(STORAGE_KEY,JSON.stringify(p))}
 var progress=loadProgress();
 
 function updateUI(){
+var LESSONS=getLessons();
 var total=LESSONS.length||1,done=progress.completedLessons.length,pct=Math.round(done/total*100);
 var el=document.getElementById("overall-percent");if(el)el.textContent=pct+"%";
 var bar=document.getElementById("overall-bar");if(bar)bar.style.width=pct+"%";
@@ -46,6 +48,7 @@ renderTodayLesson();
 
 function renderTodayLesson(){
 var c=document.getElementById("today-lesson");if(!c)return;
+var LESSONS=getLessons();
 var next=null;
 for(var i=0;i<LESSONS.length;i++){if(progress.completedLessons.indexOf(LESSONS[i].id)===-1){next=LESSONS[i];break;}}
 if(next){c.innerHTML="<h3>"+next.title+"</h3><p>"+next.description+"</p><button class='btn btn-primary' id='btnStart'>ابدأ الدرس الآن</button>";
@@ -69,6 +72,7 @@ function filterLessons(level){
 currentLevel=level;
 var tabs=document.querySelectorAll(".tab-btn[data-level]");for(var i=0;i<tabs.length;i++)tabs[i].classList.toggle("active",tabs[i].getAttribute("data-level")===level);
 var list=document.getElementById("lessons-list");if(!list)return;
+var LESSONS=getLessons();
 var html="";
 for(var i=0;i<LESSONS.length;i++){
 var l=LESSONS[i];if(l.level!==level)continue;
@@ -79,6 +83,7 @@ list.innerHTML=html||"<div class='card'><p>قريباً...</p></div>";
 }
 
 function openLesson(id){
+var LESSONS=getLessons();
 var lesson=null;for(var i=0;i<LESSONS.length;i++){if(LESSONS[i].id===id){lesson=LESSONS[i];break;}}
 if(!lesson)return;
 var badge=document.getElementById("lv-badge");if(badge){badge.textContent=lesson.level.toUpperCase();badge.className="level-badge "+lesson.level;}
