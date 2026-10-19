@@ -1,173 +1,245 @@
-const LESSONS = [
-/* A1 - 20 rich lessons from curriculum */
-{id:"a1-01",level:"a1",number:1,title:"الأبجدية والنطق",titleDe:"Alphabet & Aussprache",description:"الحروف، الأصوات الخاصة، Umlaute وß",
-content:`<h2>الأبجدية الألمانية (Das Alphabet)</h2>
-<p>26 حرفاً + Ä Ö Ü + ß</p>
-<table class="vocab-table"><tr><th>الحرف/المقطع</th><th>النطق</th><th>مثال</th></tr>
-<tr><td>ch بعد a/o/u</td><td>خ مفخمة</td><td>Buch (بوخ)</td></tr>
-<tr><td>ch بعد e/i</td><td>ش ناعمة</td><td>ich (إيش)</td></tr>
-<tr><td>sch</td><td>ش</td><td>Schule (شوله)</td></tr>
-<tr><td>sp / st في البداية</td><td>شپ / شت</td><td>sprechen / Stadt</td></tr>
-<tr><td>z · w · v · ß</td><td>تس · ڤ · ف · س طويلة</td><td>Zeit · Wasser · Vater · Straße</td></tr>
-<tr><td>ei · eu/äu · ie</td><td>آي · أوي · إي</td><td>ein · Häuser · Liebe</td></tr></table>
-<div class="grammar-box"><b>Umlaute:</b> Ä ≈ إيه · Ö ≈ أو مرققة · Ü ≈ إي مع ضم الشفاه<br><b>تمرين:</b> schön – über – Straße – sprechen – ich – Buch – Zeit – Wasser</div>`},
+const LESSONS = [ /* A1 - lesson 01 is MODEL quality; rest to be upgraded same standard */ {id:"a1-01",level:"a1",number:1,title:"الأبجدية والنطق",titleDe:"Alphabet & Aussprache",description:"الحروف، الأصوات الخاصة، Umlaute وß — درس نموذجي كامل",
+content:`<div class=\"lesson-goals\">
+<h2>🎯 أهداف الدرس</h2>
+<ul>
+<li>تتعرف على الأبجدية الألمانية الـ 26 حرفاً + Ä Ö Ü و ß</li>
+<li>تنطق الأصوات الصعبة: ch · sch · sp/st · z · w · v · ei/eu/ie</li>
+<li>تميّز بين Umlaute (Ä Ö Ü) والحروف العادية</li>
+<li>تتهجّى اسمك وكلمات بسيطة بصوت عالٍ</li>
+</ul>
+</div>
+
+<div class=\"grammar-box\">
+<b>لماذا هذا الدرس مهم؟</b><br>
+في امتحان Goethe والاستماع اليومي، سوء النطق يعيق الفهم. إتقان الحروف والأصوات من أول يوم يسرّع حفظ المفردات والاستماع لاحقاً.
+</div>
+
+<h2>1) الأبجدية الألمانية (Das Alphabet)</h2>
+<p>الألمانية تستخدم نفس الحروف اللاتينية، مع إضافات: <b>Ä ä · Ö ö · Ü ü · ß</b> (Eszett / scharfes S).</p>
+<table class=\"vocab-table\">
+<tr><th>الحرف</th><th>الاسم بالألمانية</th><th>تقريب النطق</th></tr>
+<tr><td>A a</td><td>ah</td><td>آ</td></tr>
+<tr><td>B b</td><td>beh</td><td>بيه</td></tr>
+<tr><td>C c</td><td>tseh</td><td>تسيه</td></tr>
+<tr><td>D d</td><td>deh</td><td>ديه</td></tr>
+<tr><td>E e</td><td>eh</td><td>إيه</td></tr>
+<tr><td>F f</td><td>eff</td><td>إف</td></tr>
+<tr><td>G g</td><td>geh</td><td>غيه (صلبة)</td></tr>
+<tr><td>H h</td><td>hah</td><td>ها</td></tr>
+<tr><td>I i</td><td>ih</td><td>إي</td></tr>
+<tr><td>J j</td><td>jot</td><td>يوت</td></tr>
+<tr><td>K k</td><td>kah</td><td>كا</td></tr>
+<tr><td>L l</td><td>ell</td><td>إل</td></tr>
+<tr><td>M m</td><td>emm</td><td>إم</td></tr>
+<tr><td>N n</td><td>enn</td><td>إن</td></tr>
+<tr><td>O o</td><td>oh</td><td>أو</td></tr>
+<tr><td>P p</td><td>peh</td><td>بيه</td></tr>
+<tr><td>Q q</td><td>kuh</td><td>كو</td></tr>
+<tr><td>R r</td><td>err</td><td>إر (من الحلق غالباً)</td></tr>
+<tr><td>S s</td><td>ess</td><td>إس</td></tr>
+<tr><td>T t</td><td>teh</td><td>تيه</td></tr>
+<tr><td>U u</td><td>uh</td><td>أو مضمومة</td></tr>
+<tr><td>V v</td><td>fau</td><td>فاو</td></tr>
+<tr><td>W w</td><td>weh</td><td>فيه (مثل v الإنجليزية)</td></tr>
+<tr><td>X x</td><td>iks</td><td>إكس</td></tr>
+<tr><td>Y y</td><td>üpsilon</td><td>أوبسلون</td></tr>
+<tr><td>Z z</td><td>tsett</td><td>تسيت</td></tr>
+</table>
+
+<h2>2) الحروف الخاصة: Ä Ö Ü و ß</h2>
+<table class=\"vocab-table\">
+<tr><th>الرمز</th><th>التقريب</th><th>مثال</th><th>المعنى</th></tr>
+<tr><td>Ä ä</td><td>بين A و E (إيه مفتوحة)</td><td>Mädchen</td><td>فتاة</td></tr>
+<tr><td>Ö ö</td><td>أو مع تدوير الشفاه</td><td>schön</td><td>جميل</td></tr>
+<tr><td>Ü ü</td><td>إي مع ضم الشفاه</td><td>über</td><td>فوق / عبر</td></tr>
+<tr><td>ß</td><td>س طويلة (ليست ss مضعّفة فقط)</td><td>Straße</td><td>شارع</td></tr>
+</table>
+<div class=\"example-box\">
+<div class=\"de\">Ä ≈ في كلمة English \"bed\" أطول قليلاً · Ö و Ü تحتاجان تمرين أمام المرآة</div>
+<div class=\"ar\">تدرّب: ä → ö → ü عدة مرات يومياً لمدة دقيقة</div>
+</div>
+
+<h2>3) الأصوات التي يخطئ فيها المبتدئون</h2>
+<table class=\"vocab-table\">
+<tr><th>المقطع</th><th>متى؟</th><th>النطق</th><th>مثال</th><th>ترجمة</th></tr>
+<tr><td><b>ch</b></td><td>بعد a / o / u / au</td><td>خ مفخّمة (مثل «خ» العربية)</td><td>Buch · auch · Nacht</td><td>كتاب · أيضاً · ليل</td></tr>
+<tr><td><b>ch</b></td><td>بعد e / i / ä / ö / ü / consonant</td><td>ش ناعمة (مثل ich)</td><td>ich · mich · schlecht</td><td>أنا · ني · سيء</td></tr>
+<tr><td><b>sch</b></td><td>دائماً تقريباً</td><td>ش</td><td>Schule · schwimmen</td><td>مدرسة · يسبح</td></tr>
+<tr><td><b>sp / st</b></td><td>في بداية الكلمة</td><td>شپ / شت</td><td>sprechen · Stadt</td><td>يتكلم · مدينة</td></tr>
+<tr><td><b>z</b></td><td>دائماً</td><td>تس (ts)</td><td>Zeit · Herz</td><td>وقت · قلب</td></tr>
+<tr><td><b>w</b></td><td>دائماً</td><td>ڤ (v الإنجليزية)</td><td>Wasser · wo</td><td>ماء · أين</td></tr>
+<tr><td><b>v</b></td><td>غالباً</td><td>ف</td><td>Vater · viel</td><td>أب · كثير</td></tr>
+<tr><td><b>ei</b></td><td>—</td><td>آي</td><td>ein · mein · zwei</td><td>واحد · لي · اثنان</td></tr>
+<tr><td><b>ie</b></td><td>—</td><td>إي طويلة</td><td>Liebe · hier</td><td>حب · هنا</td></tr>
+<tr><td><b>eu / äu</b></td><td>—</td><td>أوي</td><td>Freund · Häuser</td><td>صديق · بيوت</td></tr>
+</table>
+
+<h2>4) أمثلة للنطق (اقرأ بصوت عالٍ)</h2>
+<div class=\"example-box\">
+<div class=\"de\">1. ich – mich – dich – nicht – schlecht</div>
+<div class=\"ar\">أنا – ني – كَ – ليس – سيء</div>
+</div>
+<div class=\"example-box\">
+<div class=\"de\">2. Buch – auch – Nacht – machen – Tochter</div>
+<div class=\"ar\">كتاب – أيضاً – ليل – يعمل – ابنة</div>
+</div>
+<div class=\"example-box\">
+<div class=\"de\">3. Schule – sprechen – Stadt – Straße – schwimmen</div>
+<div class=\"ar\">مدرسة – يتكلم – مدينة – شارع – يسبح</div>
+</div>
+<div class=\"example-box\">
+<div class=\"de\">4. Zeit – zwei – Herz – zum – Katze</div>
+<div class=\"ar\">وقت – اثنان – قلب – إلى – قطة</div>
+</div>
+<div class=\"example-box\">
+<div class=\"de\">5. schön – über – Mädchen – Straße – Größe</div>
+<div class=\"ar\">جميل – فوق – فتاة – شارع – حجم</div>
+</div>
+
+<h2>5) تمارين</h2>
+<p><b>تمرين 1:</b> اختر النطق الأقرب لـ <i>ich</i></p>
+<ul>
+<li>أ) إخ (خ مفخمة)</li>
+<li>ب) إيش (ش ناعمة) ✅</li>
+<li>ج) إك</li>
+</ul>
+<p><b>تمرين 2:</b> أي كلمة فيها ch مفخمة (مثل خ)؟</p>
+<ul>
+<li>أ) mich</li>
+<li>ب) Buch ✅</li>
+<li>ج) schlecht</li>
+</ul>
+<p><b>تمرين 3:</b> املأ الحرف الناقص</p>
+<ul>
+<li>Sch__le → <b>Schule</b></li>
+<li>spr__chen → <b>sprechen</b></li>
+<li>Str__ße → <b>Straße</b></li>
+</ul>
+<p><b>تمرين 4:</b> صِل بين الألماني والعربي</p>
+<table class=\"vocab-table\">
+<tr><th>ألماني</th><th>عربي</th></tr>
+<tr><td>Wasser</td><td>ماء</td></tr>
+<tr><td>Zeit</td><td>وقت</td></tr>
+<tr><td>schön</td><td>جميل</td></tr>
+<tr><td>Vater</td><td>أب</td></tr>
+</table>
+
+<details class=\"grammar-box\">
+<summary><b>اعرض الحلول</b></summary>
+<p>1) ب · 2) ب · 3) Schule / sprechen / Straße · 4) كما في الجدول أعلاه</p>
+</details>
+
+<h2>6) أخطاء شائعة للمتحدثين بالعربية</h2>
+<ul>
+<li><b>قراءة w كـ «و»</b> → الصحيح أقرب إلى «ڤ» (Wasser ≈ فاسر)</li>
+<li><b>قراءة v كـ «ف» أو «ڤ» عشوائياً</b> → في أغلب كلمات A1: v = ف (Vater)</li>
+<li><b>عدم التمييز بين ich-Laut و ach-Laut</b> → بعد e/i ناعمة، بعد a/o/u مفخمة</li>
+<li><b>نطق z كـ «ز»</b> → الصحيح «تس»</li>
+<li><b>إهمال Umlaute</b> → schön ≠ schon (جميل ≠ مسبقاً/already)</li>
+</ul>
+
+<h2>7) مهمة إنتاجية (افعلها الآن)</h2>
+<div class=\"grammar-box\">
+<ol>
+<li>اكتب اسمك بالحروف الألمانية وتهجَّه بصوت عالٍ (مثل: O-M-A-R).</li>
+<li>اقرأ القائمة التالية 3 مرات ببطء ثم بسرعة متوسطة:<br>
+<code>ich – Buch – Schule – sprechen – Zeit – Wasser – schön – Straße</code></li>
+<li>سجّل صوتك 20 ثانية وأنت تقرأ الجمل، ثم استمع مرة أخرى غداً.</li>
+</ol>
+</div>
+
+<div class=\"example-box\">
+<div class=\"de\"><b>خلاصة سريعة:</b> ch بعد a/o/u = خ · ch بعد e/i = ش ناعمة · sch = ش · sp/st بداية = شپ/شت · z = تس · w ≈ ڤ · v ≈ ف</div>
+</div>`},
 {id:"a1-02",level:"a1",number:2,title:"التحيات والتعارف",titleDe:"Begrüßung & Vorstellung",description:"التحيات + القالب الذهبي",
 content:`<h2>التحيات</h2>
-<table class="vocab-table"><tr><th>ألماني</th><th>عربي</th></tr>
+<table class=\"vocab-table\"><tr><th>ألماني</th><th>عربي</th></tr>
 <tr><td>Hallo! / Guten Morgen! / Guten Tag!</td><td>مرحباً / صباح الخير / نهارك سعيد</td></tr>
 <tr><td>Guten Abend! / Gute Nacht!</td><td>مساء الخير / تصبح على خير</td></tr>
 <tr><td>Tschüss! / Auf Wiedersehen! / Bis bald!</td><td>باي / إلى اللقاء / قريباً</td></tr></table>
 <h2>القالب الذهبي</h2>
-<div class="example-box"><div class="de">Hallo, ich heiße Omar. Ich bin 31 Jahre alt. Ich komme aus Jordanien. Ich wohne in Amman. Ich spreche Arabisch und ein bisschen Deutsch. Ich bin Ingenieur. Mein Hobby ist Lesen. Freut mich!</div></div>
-<div class="grammar-box">Wie heißt du? · Woher kommst du? · Wo wohnst du? · Wie alt bist du? · Was machst du?<br><b>du</b> غير رسمي · <b>Sie</b> رسمي</div>`},
-{id:"a1-03",level:"a1",number:3,title:"الأرقام والوقت والتقويم",titleDe:"Zahlen, Uhrzeit & Kalender",description:"0–100 · الساعة · الأيام · الشهور",
-content:`<h2>الأرقام</h2>
-<p>0 null · 1 eins · 2 zwei · 3 drei · 4 vier · 5 fünf · 6 sechs · 7 sieben · 8 acht · 9 neun · 10 zehn · 11 elf · 12 zwölf · 20 zwanzig · 21 einundzwanzig · 30 dreißig · 100 hundert</p>
-<div class="grammar-box">الواحدات قبل العشرات: 21 = einundzwanzig</div>
-<div class="example-box"><div class="de">Wie spät ist es? — Es ist zwei Uhr. / halb drei. / Viertel nach zwei. · um 8 Uhr · von 9 bis 12 Uhr</div></div>
-<p>أيام: Montag…Sonntag → <b>am</b> Montag · شهور: Januar…Dezember → <b>im</b> Januar · فصول: Frühling, Sommer, Herbst, Winter</p>`},
-{id:"a1-04",level:"a1",number:4,title:"الضمائر و sein و haben",titleDe:"Pronomen, sein & haben",description:"الضمائر + أهم فعلين بالكامل",
-content:`<p>ich · du · er/sie/es · wir · ihr · sie/Sie</p>
-<table class="vocab-table"><tr><th>sein</th><th>haben</th></tr>
-<tr><td>ich bin · du bist · er ist · wir/sie/Sie sind · ihr seid</td><td>ich habe · du hast · er hat · wir/sie/Sie haben · ihr habt</td></tr></table>
-<div class="grammar-box">Ich bin müde (حالة) · Ich habe Hunger (شعور) · Ich habe einen Bruder · Ich habe keine Zeit</div>`},
-{id:"a1-05",level:"a1",number:5,title:"تصريف الأفعال المنتظمة والشاذة",titleDe:"Verbkonjugation Präsens",description:"نهايات Präsens + أفعال شاذة",
-content:`<p>نهايات: ich -e · du -st · er -t · wir -en · ihr -t</p>
-<table class="vocab-table"><tr><th>Infinitiv</th><th>du</th><th>er/sie/es</th></tr>
-<tr><td>sprechen</td><td>sprichst</td><td>spricht</td></tr>
-<tr><td>essen</td><td>isst</td><td>isst</td></tr>
-<tr><td>lesen</td><td>liest</td><td>liest</td></tr>
-<tr><td>sehen</td><td>siehst</td><td>sieht</td></tr>
-<tr><td>fahren</td><td>fährst</td><td>fährt</td></tr>
-<tr><td>geben</td><td>gibst</td><td>gibt</td></tr>
-<tr><td>nehmen</td><td>nimmst</td><td>nimmt</td></tr></table>
-<div class="grammar-box">الفعل المصرّف دائماً في المركز الثاني (V2)</div>`},
-{id:"a1-06",level:"a1",number:6,title:"جنس الأسماء وأدوات التعريف",titleDe:"Genus & Artikel",description:"der die das + ein eine",
-content:`<table class="vocab-table"><tr><th>جنس</th><th>معرفة</th><th>نكرة</th></tr>
-<tr><td>مذكر</td><td>der</td><td>ein</td></tr>
-<tr><td>مؤنث</td><td>die</td><td>eine</td></tr>
-<tr><td>محايد</td><td>das</td><td>ein</td></tr>
-<tr><td>جمع</td><td>die</td><td>—</td></tr></table>
-<div class="grammar-box">-ung/-heit/-keit → مؤنث · -chen → محايد · احفظ الاسم مع أداته: der Tisch · die Lampe · das Buch</div>`},
-{id:"a1-07",level:"a1",number:7,title:"Akkusativ و Dativ",titleDe:"Akkusativ & Dativ",description:"النصب والجر مع جداول",
-content:`<h2>Akkusativ – Wen? Was?</h2>
-<p>المذكر: der→<b>den</b> · ein→<b>einen</b></p>
-<div class="example-box"><div class="de">Ich sehe den Mann. · Ich kaufe einen Apfel. · Ich habe eine Schwester.</div></div>
-<h2>Dativ – Wem?</h2>
-<p>dem / der / dem / den(+n)</p>
-<div class="example-box"><div class="de">Ich helfe dem Freund. · Mit dem Bus. · Ich gebe der Frau das Buch.</div></div>
-<div class="grammar-box">حروف جر Dativ: aus bei mit nach seit von zu · Akkusativ: durch für gegen ohne um</div>`},
-{id:"a1-08",level:"a1",number:8,title:"النفي والملكية",titleDe:"Negation & Possessivartikel",description:"nicht / kein + mein dein",
-content:`<p><b>kein</b> للاسم · <b>nicht</b> للفعل والصفة</p>
-<div class="example-box"><div class="de">Ich habe kein Auto. · Ich lerne nicht. · Ich habe keine Zeit. · Ich habe keinen Hunger.</div></div>
-<p>mein/meine · dein/deine · sein/seine · ihr/ihre · unser/unsere · euer/eure · Ihr/Ihre</p>`},
-{id:"a1-09",level:"a1",number:9,title:"الأفعال المساعدة والمنفصلة",titleDe:"Modalverben & Trennbare Verben",description:"können müssen wollen + Trennbare",
-content:`<table class="vocab-table"><tr><th>فعل</th><th>ich</th><th>du</th><th>er</th></tr>
-<tr><td>können</td><td>kann</td><td>kannst</td><td>kann</td></tr>
-<tr><td>müssen</td><td>muss</td><td>musst</td><td>muss</td></tr>
-<tr><td>wollen</td><td>will</td><td>willst</td><td>will</td></tr>
-<tr><td>möchten</td><td>möchte</td><td>möchtest</td><td>möchte</td></tr>
-<tr><td>dürfen</td><td>darf</td><td>darfst</td><td>darf</td></tr>
-<tr><td>sollen</td><td>soll</td><td>sollst</td><td>soll</td></tr></table>
-<div class="example-box"><div class="de">Ich kann Deutsch sprechen. · Ich stehe um 7 Uhr auf. · Wir kaufen im Supermarkt ein.</div></div>`},
-{id:"a1-10",level:"a1",number:10,title:"الماضي والأمر",titleDe:"Perfekt, Präteritum & Imperativ",description:"Perfekt + war/hatte + أمر",
-content:`<h2>Perfekt</h2>
-<div class="example-box"><div class="de">Ich habe gelernt. · Ich bin nach Hause gegangen. · Ich bin nach Berlin gefahren.</div></div>
-<div class="grammar-box">sein مع الحركة: gehen, fahren, kommen · haben مع الباقي</div>
-<h2>war / hatte</h2>
-<p>ich war · du warst · er war · wir waren · ich hatte · du hattest · er hatte</p>
-<div class="example-box"><div class="de">Trink viel Wasser! · Komm hierher! · Lernen Sie fleißig!</div></div>`},
-{id:"a1-11",level:"a1",number:11,title:"الأسئلة وترتيب الجملة",titleDe:"Fragen & Satzbau",description:"V2 + W-Fragen",
-content:`<p>Was? Wer? Wo? Woher? Wohin? Wann? Wie? Warum? Wie viel?</p>
-<div class="example-box"><div class="de">Heute lerne ich Deutsch. · Am Montag arbeite ich.<br>Lernst du Deutsch? · Wo wohnst du?</div></div>
-<div class="grammar-box">الجملة الخبرية: الفعل في المركز الثاني · سؤال نعم/لا: الفعل أولاً</div>`},
-{id:"a1-12",level:"a1",number:12,title:"حروف الجر الأساسية",titleDe:"Präpositionen",description:"Dativ و Akkusativ",
-content:`<p><b>Dativ:</b> aus · bei · mit · nach · seit · von · zu</p>
-<p><b>Akkusativ:</b> durch · für · gegen · ohne · um</p>
-<div class="example-box"><div class="de">Ich komme aus Jordanien. · Ich fahre mit dem Bus. · Das ist für dich. · Um 9 Uhr.</div></div>`},
-{id:"a1-13",level:"a1",number:13,title:"مفردات: عائلة سكن طعام",titleDe:"Wortschatz: Familie, Wohnen, Essen",description:"ثلاث موضوعات أساسية",
-content:`<p><b>عائلة:</b> Eltern, Vater, Mutter, Bruder, Schwester, Kind, Sohn, Tochter, Großeltern</p>
-<p><b>سكن:</b> Wohnung, Zimmer, Küche, Bad, Schlafzimmer, Tisch, Stuhl, Bett, Fenster, Tür</p>
-<p><b>طعام:</b> Brot, Käse, Wasser, Kaffee, Tee, Milch · Ich hätte gern… · Die Rechnung bitte!</p>`},
-{id:"a1-14",level:"a1",number:14,title:"مفردات: مدينة تسوق صحة مواصلات",titleDe:"Wortschatz: Stadt, Einkaufen, Gesundheit",description:"مواقف يومية",
-content:`<p>Bahnhof, Haltestelle, Supermarkt, Apotheke, Krankenhaus · links / rechts / geradeaus</p>
-<div class="example-box"><div class="de">Was kostet das? · Haben Sie das in Größe M?<br>Ich habe Kopfschmerzen. · Ich bin erkältet.<br>Wann fährt der nächste Zug?</div></div>`},
-{id:"a1-15",level:"a1",number:15,title:"مفردات: طقس ألوان صفات أفعال",titleDe:"Wetter, Farben, Adjektive, Verben",description:"صفات وأفعال عالية التكرار",
-content:`<p>sonnig · regnerisch · kalt · warm · heiß · rot · blau · grün · schwarz · weiß</p>
-<p>groß/klein · gut/schlecht · teuer/billig · leicht/schwer · schön · nett · wichtig</p>
-<p>sein · haben · können · machen · gehen · kommen · sehen · sprechen · essen · lernen · kaufen · helfen</p>`},
-{id:"a1-16",level:"a1",number:16,title:"تمارين A1 محلولة (1)",titleDe:"Übungen A1 (1)",description:"sein/haben · Artikel · Akkusativ · نفي",
-content:`<ol>
-<li>Ich ______ Student. → <b>bin</b></li>
-<li>Du ______ ein Buch. → <b>hast</b></li>
-<li>Er ______ Arzt. → <b>ist</b></li>
-<li>Ich sehe (der Mann). → <b>den Mann</b></li>
-<li>Ich kaufe (ein Apfel). → <b>einen Apfel</b></li>
-<li>Ich habe ______ Auto. (نفي) → <b>kein</b></li>
-<li>Ich lerne ______. (نفي) → <b>nicht</b></li>
-</ol>`},
-{id:"a1-17",level:"a1",number:17,title:"تمارين A1 محلولة (2)",titleDe:"Übungen A1 (2)",description:"Modalverben · Trennbare · Satzbau",
-content:`<ol>
-<li>Ich ______ Deutsch sprechen. (können) → <b>kann</b></li>
-<li>Du ______ mehr lernen. (müssen) → <b>musst</b></li>
-<li>Ich (aufstehen) um 7. → Ich <b>stehe</b> um 7 <b>auf</b>.</li>
-<li>ich – Deutsch – lerne – jeden Tag → <b>Ich lerne jeden Tag Deutsch.</b></li>
-<li>du – heißt – wie → <b>Wie heißt du?</b></li>
-</ol>`},
-{id:"a1-18",level:"a1",number:18,title:"قراءة وكتابة وتحدث A1",titleDe:"Lesen, Schreiben, Sprechen A1",description:"نصوص + رسالة + تحدث",
-content:`<div class="example-box"><div class="de">Hallo! Ich heiße Anna. Ich bin 25 Jahre alt. Ich wohne in Berlin. Ich bin Studentin. Ich habe eine Katze. Die Katze heißt Mimi. Am Morgen trinke ich Kaffee.</div></div>
-<p>أسئلة: الاسم؟ أين؟ حيوان؟ → Anna · Berlin · Ja, eine Katze</p>
-<div class="example-box"><div class="de">Liebe(r) …, wie geht es dir? Ich habe am Samstag Geburtstag. Party um 19 Uhr. Kannst du kommen? Viele Grüße</div></div>
-<p><b>Sprechen:</b> قدّم نفسك · اطرح سؤالاً · اطلب بلطف</p>`},
-{id:"a1-19",level:"a1",number:19,title:"نص عائلة + استماع مقهى",titleDe:"Familie & Hören Café",description:"نص سارة + حوار",
-content:`<div class="example-box"><div class="de">Ich heiße Sara. Mein Vater heißt Thomas. Er ist Lehrer. Meine Mutter heißt Maria. Ich habe einen Bruder. Er heißt Tim. Wir wohnen in München.</div></div>
-<div class="example-box"><div class="de">Kellnerin: Was möchten Sie?<br>Gast: Ich möchte einen Kaffee, bitte. Nur mit Milch.<br>Gast: Ich hätte gern ein Stück Kuchen.<br>Kellnerin: Das macht 5 Euro 50.</div></div>`},
-{id:"a1-20",level:"a1",number:20,title:"خطة 30 يوماً + قائمة التحقق",titleDe:"30-Tage-Plan & Checkliste",description:"خطة يومية + جاهزية الامتحان",
-content:`<table class="vocab-table"><tr><th>أيام</th><th>تركيز</th></tr>
-<tr><td>1–7</td><td>أبجدية، sein/haben، تحيات، عائلة</td></tr>
-<tr><td>8–14</td><td>Akkusativ، Modalverben، أسئلة</td></tr>
-<tr><td>15–21</td><td>Dativ، حروف جر، أفعال منفصلة</td></tr>
-<tr><td>22–30</td><td>مراجعة + امتحان تجريبي A1</td></tr></table>
-<div class="grammar-box">أنت جاهز عندما تستطيع: تقديم نفسك · استخدام sein/haben/Modalverben · كتابة 30–40 كلمة · فهم نص قصير · طلب شيء في مقهى</div>`},
-
-/* A2 */
-{id:"a2-01",level:"a2",number:1,title:"Perfekt - الماضي",titleDe:"Perfekt",description:"haben/sein + Partizip II",
-content:`<div class="example-box"><div class="de">Ich habe gearbeitet. · Ich bin nach Hause gegangen. · Wir sind nach Berlin gefahren.</div></div>
-<div class="grammar-box">الحركة والتغيير مع sein: gehen, kommen, fahren, werden, bleiben</div>`},
-{id:"a2-02",level:"a2",number:2,title:"الجمل الثانوية weil dass wenn",titleDe:"Nebensätze",description:"الفعل في النهاية",
-content:`<div class="example-box"><div class="de">Ich lerne Deutsch, weil ich in Deutschland studieren möchte.<br>Ich glaube, dass das eine gute Idee ist.<br>Wenn ich Zeit habe, gehe ich ins Kino.</div></div>`},
-{id:"a2-03",level:"a2",number:3,title:"حروف الجر المتغيرة",titleDe:"Wechselpräpositionen",description:"in an auf",
-content:`<p>Wohin? → Akkusativ · Wo? → Dativ</p>
-<div class="example-box"><div class="de">Ich gehe in die Stadt. · Ich bin in der Stadt.</div></div>`},
-{id:"a2-04",level:"a2",number:4,title:"التسوق والصحة والسفر",titleDe:"Alltag A2",description:"مواقف يومية",
-content:`<div class="example-box"><div class="de">Haben Sie das in Größe M? · Ich habe Kopfschmerzen. · Wann fährt der nächste Zug nach Berlin?</div></div>`},
-{id:"a2-05",level:"a2",number:5,title:"المقارنات و Konjunktiv II أساسي",titleDe:"Komparativ & Konjunktiv II",description:"تفضيل + طلبات مهذبة",
-content:`<p>groß → größer → am größten · gut → besser</p>
-<div class="example-box"><div class="de">Könnten Sie mir bitte helfen? · Ich möchte einen Kaffee.</div></div>`},
-{id:"a2-06",level:"a2",number:6,title:"قراءة وكتابة وتمارين A2",titleDe:"Lesen Schreiben Übungen A2",description:"تمارين محلولة",
-content:`<ol><li>Ich lerne Deutsch, weil ich in Deutschland ______ (arbeiten). → <b>arbeiten möchte</b></li><li>Ich gehe ______ Kino. → <b>ins</b></li></ol>`},
-
-/* B1 */
-{id:"b1-01",level:"b1",number:1,title:"Konjunktiv II المتقدم",titleDe:"Konjunktiv II",description:"نصائح وفرضيات",
-content:`<div class="example-box"><div class="de">Wenn ich reich wäre, würde ich um die Welt reisen.<br>Du solltest mehr schlafen.</div></div>`},
-{id:"b1-02",level:"b1",number:2,title:"Passiv المبني للمجهول",titleDe:"Passiv",description:"werden + Partizip II",
-content:`<div class="example-box"><div class="de">Das Buch wird gelesen. · Die Prüfungen werden korrigiert.</div></div>`},
-{id:"b1-03",level:"b1",number:3,title:"الجمل النسبية Relativsätze",titleDe:"Relativsätze",description:"der die das للربط",
-content:`<div class="example-box"><div class="de">Das ist der Mann, der mir geholfen hat.<br>Das ist die Frau, die ich gestern gesehen habe.</div></div>`},
-{id:"b1-04",level:"b1",number:4,title:"أدوات الربط والرأي",titleDe:"Konnektoren & Meinung",description:"obwohl damit",
-content:`<p>obwohl · damit · nachdem · bevor · während</p>
-<div class="example-box"><div class="de">Meiner Meinung nach… Einerseits… andererseits…</div></div>`},
-{id:"b1-05",level:"b1",number:5,title:"كتابة وعرض B1",titleDe:"Schreiben & Präsentation B1",description:"رسائل وعرض",
-content:`<div class="example-box"><div class="de">Sehr geehrte Damen und Herren, ich schreibe Ihnen, weil… Mit freundlichen Grüßen</div></div>`},
-
-/* B2 */
-{id:"b2-01",level:"b2",number:1,title:"Nominalisierung و Konjunktiv I",titleDe:"Nominalisierung & Konjunktiv I",description:"تحويل + كلام غير مباشر",
-content:`<p>entwickeln → die Entwicklung</p>
-<div class="example-box"><div class="de">Er sagte, er sei müde. · Sie behauptete, sie komme morgen.</div></div>`},
-{id:"b2-02",level:"b2",number:2,title:"كتابة B2 واستراتيجيات الامتحان",titleDe:"Schreiben B2 & Strategien",description:"مقال رأي",
-content:`<div class="grammar-box">Meiner Ansicht nach… Erstens… Zweitens… Allerdings… Zusammenfassend…</div>`},
-{id:"b2-03",level:"b2",number:3,title:"خطة 7 أشهر ومراجعة نهائية",titleDe:"7-Monats-Plan & Checkliste",description:"من الصفر إلى B2",
-content:`<table class="vocab-table"><tr><th>شهر</th><th>مستوى</th></tr>
-<tr><td>1-2</td><td>A1</td></tr><tr><td>3-4</td><td>A2</td></tr><tr><td>5-6</td><td>B1</td></tr><tr><td>7</td><td>B2</td></tr></table>`}
+<div class=\"example-box\"><div class=\"de\">Hallo, ich heiße … Ich komme aus … Ich wohne in … Ich bin … Jahre alt. Und du?</div>
+<div class=\"ar\">مرحباً، اسمي … أنا من … أسكن في … عمري … سنة. وأنت؟</div></div>`},
+{id:"a1-03",level:"a1",number:3,title:"الأرقام والوقت والتقويم",titleDe:"Zahlen, Uhrzeit & Kalender",description:"0–100، الوقت، أيام الأسبوع",
+content:`<h2>الأرقام 0–20</h2>
+<p>null, eins, zwei, drei, vier, fünf, sechs, sieben, acht, neun, zehn, elf, zwölf, dreizehn, vierzehn, fünfzehn, sechzehn, siebzehn, achtzehn, neunzehn, zwanzig</p>
+<h2>الوقت</h2>
+<div class=\"example-box\"><div class=\"de\">Wie spät ist es? Es ist zehn Uhr. / Es ist halb drei. / Viertel nach zwei.</div></div>`},
+{id:"a1-04",level:"a1",number:4,title:"الضمائر و sein و haben",titleDe:"Pronomen, sein & haben",description:"ich/du/er… + تصريف sein و haben",
+content:`<h2>الضمائر</h2>
+<table class=\"vocab-table\"><tr><th>Nominativ</th><th>عربي</th></tr>
+<tr><td>ich · du · er/sie/es · wir · ihr · sie/Sie</td><td>أنا · أنت · هو/هي/هو · نحن · أنتم · هم/حضرتك</td></tr></table>
+<h2>sein / haben (Präsens)</h2>
+<div class=\"example-box\"><div class=\"de\">ich bin / habe · du bist / hast · er ist / hat · wir sind / haben</div></div>`},
+{id:"a1-05",level:"a1",number:5,title:"تصريف الأفعال المنتظمة والشاذة",titleDe:"Verbkonjugation Präsens",description:"قاعدة -en وأفعال شاذة شائعة",
+content:`<h2>القاعدة</h2>
+<p>الفعل: machen → ich mache, du machst, er macht, wir machen</p>
+<h2>شاذة مهمة</h2>
+<p>fahren: du fährst, er fährt · lesen: du liest · sprechen: du sprichst · essen: du isst</p>`},
+{id:"a1-06",level:"a1",number:6,title:"جنس الأسماء وأدوات التعريف",titleDe:"Genus & Artikel",description:"der/die/das + ein/eine",
+content:`<h2>أدوات التعريف</h2>
+<table class=\"vocab-table\"><tr><th>Geschlecht</th><th>bestimmt</th><th>unbestimmt</th></tr>
+<tr><td>Maskulin</td><td>der</td><td>ein</td></tr>
+<tr><td>Feminin</td><td>die</td><td>eine</td></tr>
+<tr><td>Neutrum</td><td>das</td><td>ein</td></tr></table>`},
+{id:"a1-07",level:"a1",number:7,title:"Akkusativ و Dativ مبسّط",titleDe:"Akkusativ & Dativ",description:"المفعول به والمفعول غير المباشر",
+content:`<h2>Akkusativ</h2>
+<p>der→den · ein→einen · ich→mich · du→dich</p>
+<h2>Dativ</h2>
+<p>der→dem · die→der · das→dem · ich→mir · du→dir</p>`},
+{id:"a1-08",level:"a1",number:8,title:"حروف الجر الأساسية",titleDe:"Präpositionen",description:"in, auf, mit, zu, von, bei…",
+content:`<h2>حروف جر شائعة</h2>
+<p>in · auf · an · mit · zu · von · bei · für · ohne · um</p>
+<div class=\"example-box\"><div class=\"de\">Ich bin in der Schule. Ich gehe zur Arbeit. Das ist für dich.</div></div>`},
+{id:"a1-09",level:"a1",number:9,title:"الأسئلة والاستفهام",titleDe:"W-Fragen",description:"Wer, was, wo, wann, wie, warum…",
+content:`<h2>أدوات الاستفهام</h2>
+<table class=\"vocab-table\"><tr><th>Fragewort</th><th>عربي</th></tr>
+<tr><td>Wer? Was? Wo? Wohin? Woher?</td><td>من؟ ماذا؟ أين؟ إلى أين؟ من أين؟</td></tr>
+<tr><td>Wann? Wie? Warum? Welche(r/s)?</td><td>متى؟ كيف؟ لماذا؟ أي؟</td></tr></table>`},
+{id:"a1-10",level:"a1",number:10,title:"النفي: nicht و kein",titleDe:"Negation",description:"متى nicht ومتى kein",
+content:`<h2>nicht vs kein</h2>
+<p><b>kein</b> مع الاسم بدون أداة تعريف محددة: Ich habe kein Auto.</p>
+<p><b>nicht</b> لنفي الفعل/الصفة/الظرف: Ich komme nicht. Das ist nicht gut.</p>`},
+{id:"a1-11",level:"a1",number:11,title:"الصفات والملكية",titleDe:"Adjektive & Possessiv",description:"mein/dein + صفات بسيطة",
+content:`<h2>ضمائر الملكية</h2>
+<p>mein, dein, sein, ihr, unser, euer, ihr, Ihr</p>
+<div class=\"example-box\"><div class=\"de\">Das ist mein Buch. Wie ist dein Name?</div></div>`},
+{id:"a1-12",level:"a1",number:12,title:"اليوميات والروتين",titleDe:"Tagesablauf",description:"أفعال يومية وترتيب الجملة",
+content:`<h2>روتين يومي</h2>
+<div class=\"example-box\"><div class=\"de\">Ich stehe um 7 Uhr auf. Ich frühstücke. Ich gehe zur Arbeit. Abends sehe ich fern.</div></div>`},
+{id:"a1-13",level:"a1",number:13,title:"الطعام والمطعم",titleDe:"Essen & Restaurant",description:"طلب طعام ومفردات المائدة",
+content:`<h2>في المطعم</h2>
+<div class=\"example-box\"><div class=\"de\">Ich hätte gerne … / Die Speisekarte bitte! / Die Rechnung bitte!</div>
+<div class=\"ar\">أريد … / القائمة من فضلك / الحساب من فضلك</div></div>`},
+{id:"a1-14",level:"a1",number:14,title:"التسوق والأسعار",titleDe:"Einkaufen & Preise",description:"في المتجر والسوق",
+content:`<h2>التسوق</h2>
+<div class=\"example-box\"><div class=\"de\">Was kostet das? Das ist zu teuer. Haben Sie das in Größe M?</div></div>`},
+{id:"a1-15",level:"a1",number:15,title:"المكان والاتجاهات",titleDe:"Ort & Wege",description:"وصف المكان وطلب الاتجاه",
+content:`<h2>الاتجاهات</h2>
+<div class=\"example-box\"><div class=\"de\">Wo ist der Bahnhof? Gehen Sie geradeaus, dann links.</div></div>`},
+{id:"a1-16",level:"a1",number:16,title:"الصحة والجسم",titleDe:"Körper & Gesundheit",description:"أعراض بسيطة عند الطبيب",
+content:`<h2>عند الطبيب</h2>
+<div class=\"example-box\"><div class=\"de\">Mir geht es nicht gut. Ich habe Kopfschmerzen.</div></div>`},
+{id:"a1-17",level:"a1",number:17,title:"الطقس والملابس",titleDe:"Wetter & Kleidung",description:"وصف الطقس والملابس",
+content:`<h2>الطقس</h2>
+<div class=\"example-box\"><div class=\"de\">Heute ist es sonnig und warm. Ich trage eine Jacke.</div></div>`},
+{id:"a1-18",level:"a1",number:18,title:"الكتابة: بريد ورسالة قصيرة",titleDe:"Schreiben A1",description:"بريد إلكتروني بسيط وبطاقة",
+content:`<h2>نموذج رسالة</h2>
+<div class=\"example-box\"><div class=\"de\">Liebe Anna, wie geht es dir? Am Samstag habe ich Zeit. Viele Grüße</div></div>`},
+{id:"a1-19",level:"a1",number:19,title:"المحادثة: مواقف A1",titleDe:"Sprechen A1",description:"مواقف شفهية للامتحان",
+content:`<h2>مواقف</h2>
+<p>تعارف · طلب في مقهى · السؤال عن الطريق · موعد بسيط</p>`},
+{id:"a1-20",level:"a1",number:20,title:"خطة 30 يوماً + مراجعة A1",titleDe:"30-Tage-Plan A1",description:"جدول مراجعة قبل امتحان A1",
+content:`<h2>خطة سريعة</h2>
+<p>الأسبوع 1–2: أساسيات ونطق · 3–4: قواعد ومفردات · مراجعة + نموذج امتحان</p>`},
+/* A2+ placeholders keep site structure */
+{id:"a2-01",level:"a2",number:1,title:"مراجعة A1 + Perfekt",titleDe:"Perfekt",description:"الماضي المركب",content:`<h2>Perfekt</h2><p>ich habe gemacht · ich bin gegangen</p>`},
+{id:"a2-02",level:"a2",number:2,title:"الجمل الثانوية weil/dass",titleDe:"Nebensätze",description:"weil و dass",content:`<h2>weil / dass</h2><p>Ich bleibe zu Hause, weil ich krank bin.</p>`},
+{id:"a2-03",level:"a2",number:3,title:"المقارنات",titleDe:"Komparativ",description:"أكبر/أصغر",content:`<h2>Komparativ</h2><p>größer als · so groß wie</p>`},
+{id:"b1-01",level:"b1",number:1,title:"Konjunktiv II للتهذيب",titleDe:"Konjunktiv II",description:"würde / hätte / wäre",content:`<h2>KII</h2><p>Ich würde gerne… · Hätten Sie…?</p>`},
+{id:"b1-02",level:"b1",number:2,title:"Passiv مبسّط",titleDe:"Passiv",description:"werden + Partizip II",content:`<h2>Passiv</h2><p>Das Buch wird gelesen.</p>`},
+{id:"b1-03",level:"b1",number:3,title:"الربط والحجاج B1",titleDe:"Argumentation",description:"رأي ودعم",content:`<h2>Meinung</h2><p>Meiner Meinung nach… · deshalb…</p>`},
+{id:"b2-01",level:"b2",number:1,title:"Nominalisierung",titleDe:"Nominalisierung",description:"تحويل الفعل إلى اسم",content:`<h2>Nominalstil</h2><p>die Entwicklung der Technik</p>`},
+{id:"b2-02",level:"b2",number:2,title:"Konjunktiv I للخطاب",titleDe:"Konjunktiv I",description:"نقل الكلام",content:`<h2>KI</h2><p>Er sagte, er habe keine Zeit.</p>`},
+{id:"b2-03",level:"b2",number:3,title:"كتابة مقال B2",titleDe:"Erörterung",description:"هيكل المقال",content:`<h2>Aufbau</h2><p>Einleitung · Argumente · Schluss</p>`}
 ];
-if (typeof window !== "undefined") { window.LESSONS = LESSONS; }
