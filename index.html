@@ -8,7 +8,7 @@
   <meta name="description" content="منصة شاملة لتعلم الألمانية من A1 إلى B2" />
   <link rel="manifest" href="manifest.json" />
   <title>Goethe mit Omar | من الصفر إلى B2</title>
-  <link rel="stylesheet" href="style.css?v=9" />
+  <link rel="stylesheet" href="style.css?v=11" />
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -210,15 +210,23 @@
     </section>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
-  <script src="lessons.js?v=9"></script>
-  <script src="stories.js?v=9"></script>
-  <script src="exams.js?v=9"></script>
-  <script src="vocab-a1-ready.js?v=9"></script>
-  <script src="sentences-a1-ready.js?v=9"></script>
-  <script src="app.js?v=9"></script>
+  <script src="lessons.js?v=11"></script>
+  <script src="stories.js?v=11"></script>
+  <script src="exams.js?v=11"></script>
+  <script src="vocab-a1-ready.js?v=11"></script>
+  <script src="sentences-a1-ready.js?v=11"></script>
+  <script src="app.js?v=11"></script>
   <script>
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js?v=9').catch(function(){});
+      navigator.serviceWorker.getRegistrations().then(function(regs) {
+        regs.forEach(function(r) { r.unregister(); });
+      }).then(function() {
+        if (window.caches) {
+          caches.keys().then(function(keys) {
+            keys.forEach(function(k) { caches.delete(k); });
+          });
+        }
+      }).catch(function(){});
     }
   </script>
 </body>
