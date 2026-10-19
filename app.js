@@ -1,6 +1,5 @@
 /* Goethe mit Omar - App Logic */
 const STORAGE_KEY = "goethe_v4";
-// IMPORTANT: do not redeclare LESSONS - it comes from lessons.js as window.LESSONS
 function getLessons(){ return window.LESSONS || []; }
 
 const REDEMITTEL = {
@@ -64,6 +63,7 @@ if(id==="lessons")filterLessons(currentLevel);
 if(id==="redemittel")filterRedemittel(currentRmLevel);
 if(id==="stories")filterStories(currentStoryLevel);
 if(id==="exams")filterExams(currentExamLevel);
+if(id==="wordbank")showWordbankTab(currentWordbankTab||"vocab");
 window.scrollTo(0,0);
 }
 
@@ -130,8 +130,8 @@ try{
 var data=loadProgress();data.exportedAt=new Date().toISOString();
 var json=JSON.stringify(data,null,2);
 if(navigator.clipboard&&navigator.clipboard.writeText){
-navigator.clipboard.writeText(json).then(function(){alert("تم نسخ التقدم! أرسله لنفسك ثم استورده على الجهاز الآخر.");});
-}else{prompt("انسخ هذا النص:",json);}
+navigator.clipboard.writeText(json).then(function(){alert("تم نسخ التقدم!");});
+}else{prompt("انسخ:",json);}
 }catch(e){alert("خطأ: "+e.message);}
 }
 function importProgress(){
@@ -139,11 +139,10 @@ var json=prompt("الصق بيانات التقدم:");
 if(!json||!json.trim())return;
 try{
 var data=JSON.parse(json.trim());
-if(!confirm("استبدال التقدم؟ دروس: "+(data.completedLessons?data.completedLessons.length:0)))return;
+if(!confirm("استبدال التقدم؟"))return;
 var clean={completedLessons:Array.isArray(data.completedLessons)?data.completedLessons:[],streak:data.streak||0,lastStudyDate:data.lastStudyDate||null,wordsLearned:data.wordsLearned||0,startDate:data.startDate||new Date().toISOString().slice(0,10)};
 saveProgress(clean);progress=clean;updateUI();
-alert("تم الاستيراد! دروس: "+clean.completedLessons.length);
-filterLessons(currentLevel||"a1");
+alert("تم الاستيراد!");
 }catch(e){alert("فشل: "+e.message);}
 }
 
@@ -177,7 +176,6 @@ var box=content.querySelector(".example-box");
 var text=box?box.innerText:content.innerText;
 if(!text)return;
 if("speechSynthesis" in window){speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(text);u.lang="de-DE";u.rate=0.85;speechSynthesis.speak(u);}
-else alert("لا يدعم النطق");
 }
 
 var currentExamLevel="a1";
@@ -221,41 +219,38 @@ document.getElementById("scan-preview-wrap").classList.add("hidden");
 document.getElementById("scan-ocr-btn").disabled=true;
 }
 async function runOCR(){
-if(!scanImageData||typeof Tesseract==="undefined"){alert("ارفع صورة أو تأكد من الإنترنت");return;}
+if(!scanImageData||typeof Tesseract==="undefined"){alert("ارفع صورة");return;}
 var btn=document.getElementById("scan-ocr-btn");var status=document.getElementById("scan-ocr-status");
 btn.disabled=true;status.textContent="جاري التحليل...";
 try{
 var result=await Tesseract.recognize(scanImageData,"deu");
 var text=(result&&result.data&&result.data.text)?result.data.text.trim():"";
 document.getElementById("scan-input").value=text||"";
-status.textContent=text?"تم الاستخراج":"لم يُعثر على نص";
-}catch(e){status.textContent="فشلت القراءة";}
+status.textContent=text?"تم":"لم يُعثر على نص";
+}catch(e){status.textContent="فشلت";}
 btn.disabled=false;
 }
-
 function escapeHtml(s){
 if(!s)return "";
-return String(s).split("&").join("&"+"amp;").split("<").join("&"+"lt;").split(">").join("&"+"gt;").split('"').join("&"+"quot;");
+return String(s).split("&").join("&").split("<").join("<").split(">").join(">").split('"').join(""");
 }
-
 async function analyzeGermanText(){
 var text=(document.getElementById("scan-input").value||"").trim();
-if(!text){alert("اكتب نصاً ألمانياً");return;}
+if(!text){alert("اكتب نصاً");return;}
 var box=document.getElementById("scan-errors-box");var hl=document.getElementById("scan-highlighted");var corr=document.getElementById("scan-corrections");
-box.classList.remove("hidden");hl.innerHTML="جاري التحليل...";corr.innerHTML="";
+box.classList.remove("hidden");hl.innerHTML="جاري...";corr.innerHTML="";
 try{
 var res=await fetch("https://api.languagetool.org/v2/check",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:"text="+encodeURIComponent(text)+"&language=de-DE"});
 var data=await res.json();var matches=data.matches||[];
-if(matches.length===0){hl.innerHTML=escapeHtml(text);corr.innerHTML="لا توجد أخطاء";return;}
+if(matches.length===0){hl.innerHTML=escapeHtml(text);corr.innerHTML="لا أخطاء";return;}
 matches.sort(function(a,b){return b.offset-a.offset});
 var html=text;
 for(var i=0;i<matches.length;i++){
 var m=matches[i];
 html=html.substring(0,m.offset)+"<span class='scan-err'>"+escapeHtml(text.substring(m.offset,m.offset+m.length))+"</span>"+html.substring(m.offset+m.length);
 }
-hl.innerHTML=html;
-corr.innerHTML="وُجد "+matches.length+" خطأ";
-}catch(e){hl.innerHTML=escapeHtml(text);corr.innerHTML="تعذر التحليل";}
+hl.innerHTML=html;corr.innerHTML="وُجد "+matches.length+" خطأ";
+}catch(e){hl.innerHTML=escapeHtml(text);corr.innerHTML="تعذر";}
 }
 function speakScanText(){
 var text=(document.getElementById("scan-input").value||"").trim();
@@ -266,13 +261,102 @@ async function translateScanText(){
 var text=(document.getElementById("scan-input").value||"").trim();
 if(!text)return;
 var box=document.getElementById("scan-translation");
-box.classList.remove("hidden");box.innerHTML="جاري الترجمة...";
+box.classList.remove("hidden");box.innerHTML="جاري...";
 try{
 var res=await fetch("https://api.mymemory.translated.net/get?q="+encodeURIComponent(text.substring(0,400))+"&langpair=de|ar");
 var data=await res.json();
 var t=(data.responseData&&data.responseData.translatedText)||"تعذرت";
 box.innerHTML="<strong>الترجمة:</strong><br>"+escapeHtml(t);
-}catch(e){box.innerHTML="تعذر الاتصال";}
+}catch(e){box.innerHTML="تعذر";}
+}
+
+/* Wordbank */
+var currentWordbankTab="vocab";
+function showWordbankTab(tab){
+currentWordbankTab=tab||"vocab";
+var v=document.getElementById("wordbank-vocab");
+var s=document.getElementById("wordbank-sentences");
+var tv=document.getElementById("wb-tab-vocab");
+var ts=document.getElementById("wb-tab-sentences");
+if(v)v.classList.toggle("hidden",tab!=="vocab");
+if(s)s.classList.toggle("hidden",tab!=="sentences");
+if(tv)tv.classList.toggle("active",tab==="vocab");
+if(ts)ts.classList.toggle("active",tab==="sentences");
+if(tab==="vocab")renderVocabCats();else renderSentenceCats();
+}
+function renderVocabCats(){
+var list=document.getElementById("vocab-cats-list");
+var cardsView=document.getElementById("vocab-cards-view");
+if(!list)return;
+if(cardsView)cardsView.classList.add("hidden");
+list.classList.remove("hidden");
+var data=window.VOCAB_A1||[];
+var html="";
+for(var i=0;i<data.length;i++){
+var c=data[i];var n=(c.words&&c.words.length)||0;
+html+="<div class='lesson-card' onclick='openVocabCat(\""+c.id+"\")'><div class='lesson-num'>"+c.number+"</div><div class='lesson-info'><h3>"+c.title+"</h3><p>"+n+" كلمة</p></div><div class='lesson-status'>▶️</div></div>";
+}
+list.innerHTML=html||"<div class='card'><p>لا توجد مفردات</p></div>";
+}
+function openVocabCat(id){
+var data=window.VOCAB_A1||[];var cat=null;
+for(var i=0;i<data.length;i++)if(data[i].id===id){cat=data[i];break;}
+if(!cat)return;
+var list=document.getElementById("vocab-cats-list");
+var view=document.getElementById("vocab-cards-view");
+var title=document.getElementById("vocab-cat-title");
+var cards=document.getElementById("vocab-cards");
+if(list)list.classList.add("hidden");
+if(view)view.classList.remove("hidden");
+if(title)title.textContent=cat.title+" ("+(cat.words?cat.words.length:0)+")";
+var html="";var words=cat.words||[];
+for(var j=0;j<words.length;j++){
+html+="<div class='flash-card' onclick='this.classList.toggle(\"flipped\")'><div class='flash-front' dir='ltr'>"+words[j][0]+"</div><div class='flash-back'>"+words[j][1]+"</div></div>";
+}
+if(cards)cards.innerHTML=html;window.scrollTo(0,0);
+}
+function closeVocabCards(){
+var list=document.getElementById("vocab-cats-list");
+var view=document.getElementById("vocab-cards-view");
+if(view)view.classList.add("hidden");
+if(list)list.classList.remove("hidden");
+}
+function renderSentenceCats(){
+var list=document.getElementById("sentences-cats-list");
+var itemsView=document.getElementById("sentences-list-view");
+if(!list)return;
+if(itemsView)itemsView.classList.add("hidden");
+list.classList.remove("hidden");
+var data=window.SENTENCES_A1||[];
+var html="";
+for(var i=0;i<data.length;i++){
+var c=data[i];var n=(c.sentences&&c.sentences.length)||0;
+html+="<div class='lesson-card' onclick='openSentenceCat(\""+c.id+"\")'><div class='lesson-num'>"+c.number+"</div><div class='lesson-info'><h3>"+c.title+"</h3><p>"+n+" جملة</p></div><div class='lesson-status'>▶️</div></div>";
+}
+list.innerHTML=html||"<div class='card'><p>لا توجد جمل</p></div>";
+}
+function openSentenceCat(id){
+var data=window.SENTENCES_A1||[];var cat=null;
+for(var i=0;i<data.length;i++)if(data[i].id===id){cat=data[i];break;}
+if(!cat)return;
+var list=document.getElementById("sentences-cats-list");
+var view=document.getElementById("sentences-list-view");
+var title=document.getElementById("sentences-cat-title");
+var items=document.getElementById("sentences-items");
+if(list)list.classList.add("hidden");
+if(view)view.classList.remove("hidden");
+if(title)title.textContent=cat.title;
+var html="";var sents=cat.sentences||[];
+for(var j=0;j<sents.length;j++){
+html+="<div class='sentence-item' onclick='this.classList.toggle(\"show-ar\")'><div class='sentence-de' dir='ltr'>"+(j+1)+". "+sents[j][0]+"</div><div class='sentence-ar'>"+sents[j][1]+"</div></div>";
+}
+if(items)items.innerHTML=html;window.scrollTo(0,0);
+}
+function closeSentencesList(){
+var list=document.getElementById("sentences-cats-list");
+var view=document.getElementById("sentences-list-view");
+if(view)view.classList.add("hidden");
+if(list)list.classList.remove("hidden");
 }
 
 document.addEventListener("DOMContentLoaded",function(){
