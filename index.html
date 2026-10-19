@@ -5,13 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="theme-color" content="#0a7a3e" />
-  <meta name="description" content="منصة شاملة لتعلم الألمانية من A1 إلى B2 – دروس، قصص، امتحانات، موارد" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="description" content="منصة شاملة لتعلم الألمانية من A1 إلى B2" />
   <link rel="manifest" href="manifest.json" />
   <title>Goethe mit Omar | من الصفر إلى B2</title>
-  <link rel="stylesheet" href="style.css?v=8" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="style.css?v=9" />
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -62,9 +59,9 @@
         <h2>📊 تقدم المستويات</h2>
         <div class="levels-progress">
           <div class="level-item" onclick="filterLessons('a1');showSection('lessons')"><div class="level-header"><span class="level-badge a1">A1</span><span id="a1-percent">0%</span></div><div class="progress-bar small"><div class="progress-fill" id="a1-bar" style="width:0%"></div></div><p class="level-desc">الأساسيات · 650 كلمة · امتحان غوته A1</p></div>
-          <div class="level-item" onclick="filterLessons('a2');showSection('lessons')"><div class="level-header"><span class="level-badge a2">A2</span><span id="a2-percent">0%</span></div><div class="progress-bar small"><div class="progress-fill" id="a2-bar" style="width:0%"></div></div><p class="level-desc">التوسع · 1300 كلمة · جمل ثانوية + Perfekt</p></div>
-          <div class="level-item" onclick="filterLessons('b1');showSection('lessons')"><div class="level-header"><span class="level-badge b1">B1</span><span id="b1-percent">0%</span></div><div class="progress-bar small"><div class="progress-fill" id="b1-bar" style="width:0%"></div></div><p class="level-desc">الاستقلالية · 2400 كلمة · Konjunktiv II + Passiv</p></div>
-          <div class="level-item" onclick="filterLessons('b2');showSection('lessons')"><div class="level-header"><span class="level-badge b2">B2</span><span id="b2-percent">0%</span></div><div class="progress-bar small"><div class="progress-fill" id="b2-bar" style="width:0%"></div></div><p class="level-desc">الطلاقة · 4000+ كلمة · Konjunktiv I + Nominalisierung</p></div>
+          <div class="level-item" onclick="filterLessons('a2');showSection('lessons')"><div class="level-header"><span class="level-badge a2">A2</span><span id="a2-percent">0%</span></div><div class="progress-bar small"><div class="progress-fill" id="a2-bar" style="width:0%"></div></div><p class="level-desc">التوسع · 1300 كلمة</p></div>
+          <div class="level-item" onclick="filterLessons('b1');showSection('lessons')"><div class="level-header"><span class="level-badge b1">B1</span><span id="b1-percent">0%</span></div><div class="progress-bar small"><div class="progress-fill" id="b1-bar" style="width:0%"></div></div><p class="level-desc">الاستقلالية · 2400 كلمة</p></div>
+          <div class="level-item" onclick="filterLessons('b2');showSection('lessons')"><div class="level-header"><span class="level-badge b2">B2</span><span id="b2-percent">0%</span></div><div class="progress-bar small"><div class="progress-fill" id="b2-bar" style="width:0%"></div></div><p class="level-desc">الطلاقة · 4000+ كلمة</p></div>
         </div>
       </div>
       <div class="card">
@@ -76,20 +73,10 @@
         </div>
       </div>
       <div class="card">
-        <h2>🗺️ خريطة الطريق (7 أشهر)</h2>
-        <div class="roadmap">
-          <div class="roadmap-item"><span class="rm-month">1–2</span><span>A1 كامل + تمارين + نماذج امتحان</span></div>
-          <div class="roadmap-item"><span class="rm-month">3–4</span><span>A2 كامل + Perfekt + جمل ثانوية</span></div>
-          <div class="roadmap-item"><span class="rm-month">5–6</span><span>B1 · Konjunktiv II · Passiv · عرض تقديمي</span></div>
-          <div class="roadmap-item"><span class="rm-month">7</span><span>B2 · نماذج غوته كاملة · محاكاة امتحان</span></div>
-        </div>
-      </div>
-      <div class="card">
         <h2>💾 نقل التقدم بين الأجهزة</h2>
-        <p class="subtitle">التقدم يُحفظ على الجهاز فقط. لنقله لجهاز آخر:</p>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
-          <button class="btn btn-primary" style="flex:1;min-width:140px" onclick="exportProgress()">📤 تصدير التقدم</button>
-          <button class="btn" style="flex:1;min-width:140px;background:#2980b9;color:#fff" onclick="importProgress()">📥 استيراد التقدم</button>
+          <button class="btn btn-primary" style="flex:1;min-width:140px" onclick="exportProgress()">📤 تصدير</button>
+          <button class="btn" style="flex:1;min-width:140px;background:#2980b9;color:#fff" onclick="importProgress()">📥 استيراد</button>
         </div>
       </div>
     </section>
@@ -117,7 +104,6 @@
     <section id="stories" class="section">
       <div class="card">
         <h1>📖 قصص قصيرة للقراءة</h1>
-        <p class="subtitle">نصوص متدرجة من A1 إلى B2</p>
         <div class="level-tabs" style="margin-bottom:16px">
           <button class="tab-btn active" data-story-level="a1" onclick="filterStories('a1')">A1</button>
           <button class="tab-btn" data-story-level="a2" onclick="filterStories('a2')">A2</button>
@@ -129,17 +115,17 @@
     </section>
 
     <section id="story-view" class="section">
-      <button class="btn-back" onclick="showSection('stories')">← رجوع للقصص</button>
+      <button class="btn-back" onclick="showSection('stories')">← رجوع</button>
       <div class="lesson-header">
         <span class="level-badge" id="sv-badge">A1</span>
         <h1 id="sv-title">عنوان القصة</h1>
       </div>
       <div id="story-content" class="lesson-content"></div>
-      <div style="margin-top:20px"><button class="btn btn-primary" style="width:100%" onclick="speakStory()">🔊 استمع للقصة</button></div>
+      <div style="margin-top:20px"><button class="btn btn-primary" style="width:100%" onclick="speakStory()">🔊 استمع</button></div>
     </section>
 
     <section id="redemittel" class="section">
-      <h2>💬 عبارات جاهزة (Redemittel)</h2>
+      <h2>💬 عبارات جاهزة</h2>
       <div class="tabs">
         <button class="tab-btn active" data-rm="a1" onclick="filterRedemittel('a1')">A1</button>
         <button class="tab-btn" data-rm="a2" onclick="filterRedemittel('a2')">A2</button>
@@ -174,10 +160,8 @@
     <section id="resources" class="section">
       <div class="card"><h1>🔗 موارد مهمة</h1></div>
       <div class="card">
-        <h2>📺 قنوات يوتيوب</h2>
         <div class="resource-list">
           <a class="resource-item" href="https://www.youtube.com/@EasyGerman" target="_blank" rel="noopener"><span class="res-icon">🇩🇪</span><div><strong>Easy German</strong><p>مقابلات حقيقية</p></div></a>
-          <a class="resource-item" href="https://www.youtube.com/@DeutschmitRieke" target="_blank" rel="noopener"><span class="res-icon">👩‍🏫</span><div><strong>Deutsch mit Rieke</strong><p>شرح قواعد</p></div></a>
           <a class="resource-item" href="https://www.goethe.de/en/spr/prf.html" target="_blank" rel="noopener"><span class="res-icon">🏛️</span><div><strong>Goethe-Institut</strong><p>امتحانات رسمية</p></div></a>
         </div>
       </div>
@@ -193,7 +177,7 @@
         <p class="subtitle">اضغط على البطاقة لقلب الترجمة</p>
         <div id="vocab-cats-list"></div>
         <div id="vocab-cards-view" class="hidden">
-          <button class="btn-back" onclick="closeVocabCards()">← رجوع للفئات</button>
+          <button class="btn-back" onclick="closeVocabCards()">← رجوع</button>
           <h3 id="vocab-cat-title"></h3>
           <div id="vocab-cards" class="vocab-cards-grid"></div>
         </div>
@@ -202,7 +186,7 @@
         <p class="subtitle">اضغط على الجملة لإظهار الترجمة</p>
         <div id="sentences-cats-list"></div>
         <div id="sentences-list-view" class="hidden">
-          <button class="btn-back" onclick="closeSentencesList()">← رجوع للأقسام</button>
+          <button class="btn-back" onclick="closeSentencesList()">← رجوع</button>
           <h3 id="sentences-cat-title"></h3>
           <div id="sentences-items"></div>
         </div>
@@ -226,17 +210,15 @@
     </section>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
-  <script src="lessons.js?v=8"></script>
-  <script src="stories.js?v=8"></script>
-  <script src="exams.js?v=8"></script>
-  <script src="vocab-a1-ready.js?v=8"></script>
-  <script src="sentences-a1-ready.js?v=8"></script>
-  <script src="app.js?v=8"></script>
+  <script src="lessons.js?v=9"></script>
+  <script src="stories.js?v=9"></script>
+  <script src="exams.js?v=9"></script>
+  <script src="vocab-a1-ready.js?v=9"></script>
+  <script src="sentences-a1-ready.js?v=9"></script>
+  <script src="app.js?v=9"></script>
   <script>
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js?v=8').then(function(reg) {
-        if (reg.waiting) reg.waiting.postMessage({type:'SKIP_WAITING'});
-      }).catch(function(){});
+      navigator.serviceWorker.register('sw.js?v=9').catch(function(){});
     }
   </script>
 </body>
