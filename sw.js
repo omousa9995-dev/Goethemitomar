@@ -1,4 +1,4 @@
-const CACHE_NAME = 'goethe-omar-v8';
+const CACHE_NAME = 'gmo-v20';
 const CORE_ASSETS = [
   './',
   './index.html',
@@ -32,7 +32,6 @@ self.addEventListener('fetch', event => {
   const req = event.request;
   if (req.method !== 'GET') return;
 
-  // Network-first for HTML so updates appear quickly
   if (req.mode === 'navigate' || (req.headers.get('accept') && req.headers.get('accept').includes('text/html'))) {
     event.respondWith(
       fetch(req)
@@ -46,7 +45,6 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Network-first for JS/CSS so lesson/content updates are not stuck in cache
   if (req.url.match(/\.(js|css)(\?|$)/)) {
     event.respondWith(
       fetch(req)
