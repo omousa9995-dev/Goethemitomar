@@ -99,7 +99,6 @@ body { font-family: 'Cairo', sans-serif; background: var(--bg); color: var(--tex
 .scan-corr-item { padding:8px 0; border-bottom:1px solid var(--border); font-size:0.9rem; }
 .ocr-progress { height:6px; background:#eee; border-radius:3px; margin-top:8px; overflow:hidden; }
 .ocr-progress-bar { height:100%; background:var(--green); width:0%; transition:width 0.2s; }
-/* Resources */
 .resource-list { display:flex; flex-direction:column; gap:10px; }
 .resource-item { display:flex; align-items:flex-start; gap:12px; padding:14px; background:#f8faf9; border-radius:12px; text-decoration:none; color:inherit; border:1px solid #e5ebe7; transition:background 0.15s; }
 .resource-item:active { background:#e8f5ee; }
@@ -108,3 +107,17 @@ body { font-family: 'Cairo', sans-serif; background: var(--bg); color: var(--tex
 .resource-item p { margin:0; font-size:0.82rem; color:#555; line-height:1.4; }
 .subtitle { color:var(--text-secondary); font-size:0.9rem; margin-bottom:12px; }
 @media (max-width:400px) { .stats-grid { grid-template-columns:repeat(2,1fr); } }
+/* Wordbank / Flashcards */
+.vocab-cards-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:12px; margin-top:14px; }
+.flash-card { background:var(--card); border-radius:12px; padding:18px 12px; min-height:90px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; cursor:pointer; box-shadow:var(--shadow); border:2px solid transparent; transition:transform .15s,border-color .15s; }
+.flash-card:active { transform:scale(0.97); }
+.flash-card .flash-front { font-family:Inter,sans-serif; font-weight:600; font-size:1.05rem; color:var(--text); direction:ltr; }
+.flash-card .flash-back { display:none; color:var(--green); font-weight:700; margin-top:6px; font-size:0.95rem; }
+.flash-card.flipped { border-color:var(--green); background:rgba(10,122,62,0.08); }
+.flash-card.flipped .flash-back { display:block; }
+.sentence-item { background:var(--card); border-radius:10px; padding:14px 16px; margin-bottom:10px; cursor:pointer; box-shadow:var(--shadow); border-right:3px solid transparent; transition:border-color .15s; }
+.sentence-item:active { border-right-color:var(--green); }
+.sentence-de { font-family:Inter,sans-serif; font-size:1.05rem; line-height:1.6; direction:ltr; text-align:left; }
+.sentence-ar { display:none; margin-top:8px; color:var(--green); font-weight:600; font-size:0.95rem; }
+.sentence-item.show-ar { border-right-color:var(--green); }
+.sentence-item.show-ar .sentence-ar { display:block; }
