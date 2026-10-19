@@ -9,7 +9,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <link rel="manifest" href="manifest.json" />
   <title>Goethe mit Omar | من الصفر إلى B2</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=8" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -226,15 +226,17 @@
     </section>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
-  <script src="lessons.js"></script>
-  <script src="stories.js"></script>
-  <script src="exams.js"></script>
-  <script src="vocab-a1-ready.js"></script>
-  <script src="sentences-a1-ready.js"></script>
-  <script src="app.js"></script>
+  <script src="lessons.js?v=8"></script>
+  <script src="stories.js?v=8"></script>
+  <script src="exams.js?v=8"></script>
+  <script src="vocab-a1-ready.js?v=8"></script>
+  <script src="sentences-a1-ready.js?v=8"></script>
+  <script src="app.js?v=8"></script>
   <script>
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js').catch(function(){});
+      navigator.serviceWorker.register('sw.js?v=8').then(function(reg) {
+        if (reg.waiting) reg.waiting.postMessage({type:'SKIP_WAITING'});
+      }).catch(function(){});
     }
   </script>
 </body>
