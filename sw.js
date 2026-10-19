@@ -1,4 +1,4 @@
-const CACHE_NAME = 'goethe-omar-v7';
+const CACHE_NAME = 'goethe-omar-v8';
 const CORE_ASSETS = [
   './',
   './index.html',
@@ -7,6 +7,8 @@ const CORE_ASSETS = [
   './lessons.js',
   './stories.js',
   './exams.js',
+  './vocab-a1-ready.js',
+  './sentences-a1-ready.js',
   './manifest.json'
 ];
 
@@ -30,6 +32,7 @@ self.addEventListener('fetch', event => {
   const req = event.request;
   if (req.method !== 'GET') return;
 
+  // Network-first for HTML so updates appear quickly
   if (req.mode === 'navigate' || (req.headers.get('accept') && req.headers.get('accept').includes('text/html'))) {
     event.respondWith(
       fetch(req)
@@ -39,6 +42,22 @@ self.addEventListener('fetch', event => {
           return res;
         })
         .catch(() => caches.match('./index.html'))
+    );
+    return;
+  }
+
+  // Network-first for JS/CSS so lesson/content updates are not stuck in cache
+  if (req.url.match(/\.(js|css)(\?|$)/)) {
+    event.respondWith(
+      fetch(req)
+        .then(res => {
+          if (res.ok) {
+            const clone = res.clone();
+            caches.open(CACHE_NAME).then(c => c.put(req, clone));
+          }
+          return res;
+        })
+        .catch(() => caches.match(req))
     );
     return;
   }
