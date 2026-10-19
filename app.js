@@ -4,8 +4,48 @@ function getLessons(){ return window.LESSONS || []; }
 
 const REDEMITTEL = {
 a1:[
-{cat:"تحيات وتعارف",items:[["Hallo! / Guten Tag!","مرحباً / نهارك سعيد"],["Wie heißt du?","ما اسمك؟"],["Ich heiße...","اسمي..."],["Woher kommst du?","من أين أنت؟"],["Freut mich!","سررت بلقائك!"],["Wie geht's?","كيف حالك؟"],["Mir geht's gut.","أنا بخير."]]},
-{cat:"طلبات",items:[["Entschuldigung!","عفوًا!"],["Können Sie mir helfen?","هل يمكنكم مساعدتي؟"],["Ich hätte gerne...","أريد... من فضلك"],["Was kostet das?","كم يكلف؟"],["Danke schön!","شكراً!"],["Bitte schön!","عفواً"]]}
+{cat:"تحيات وتعارف",items:[
+["Hallo! / Guten Morgen! / Guten Tag!","مرحباً / صباح الخير / نهارك سعيد"],
+["Guten Abend! / Gute Nacht!","مساء الخير / تصبح على خير"],
+["Tschüss! / Auf Wiedersehen! / Bis bald!","باي / إلى اللقاء / قريباً"],
+["Wie heißt du? / Wie heißen Sie?","ما اسمك؟"],
+["Ich heiße … / Mein Name ist …","اسمي …"],
+["Woher kommst du?","من أين أنت؟"],
+["Ich komme aus …","أنا من …"],
+["Wo wohnst du?","أين تسكن؟"],
+["Ich wohne in …","أسكن في …"],
+["Wie alt bist du?","كم عمرك؟"],
+["Ich bin … Jahre alt.","عمري … سنة"],
+["Wie geht's?","كيف حالك؟"],
+["Mir geht's gut.","أنا بخير"],
+["Freut mich!","سررت بلقائك!"]
+]},
+{cat:"طلبات واستفسار",items:[
+["Entschuldigung!","عفواً!"],
+["Können Sie mir bitte helfen?","هل يمكنكم مساعدتي؟"],
+["Was bedeutet das?","ماذا يعني هذا؟"],
+["Können Sie das bitte wiederholen?","أعد من فضلك"],
+["Sprechen Sie bitte langsamer.","تحدث ببطء"],
+["Ich hätte gerne … / Ich möchte …","أريد … من فضلك"],
+["Was kostet das?","كم السعر؟"],
+["Wo ist …?","أين …؟"],
+["Die Rechnung bitte!","الحساب من فضلك!"],
+["Danke schön!","شكراً!"]
+]},
+{cat:"تخطيط بسيط",items:[
+["Wollen wir …?","هل نريد …؟"],
+["Ja, gerne!","نعم بكل سرور!"],
+["Leider habe ich keine Zeit.","للأسف ليس لدي وقت"],
+["Wann? / Um wie viel Uhr?","متى؟"],
+["Wo treffen wir uns?","أين نلتقي؟"]
+]},
+{cat:"كتابة بسيطة",items:[
+["Liebe(r) …","عزيزي/عزيزتي …"],
+["Wie geht es dir?","كيف حالك؟"],
+["Ich mache am Samstag eine Party.","سأقيم حفلة السبت"],
+["Kannst du kommen?","هل تستطيع المجيء؟"],
+["Viele Grüße","تحياتي"]
+]}
 ],
 a2:[
 {cat:"الرأي",items:[["Ich finde, dass...","أجد أن..."],["Meiner Meinung nach...","في رأيي..."],["..., weil...","... لأن..."],["Das stimmt.","هذا صحيح"]]},
@@ -81,7 +121,6 @@ html+="<div class='lesson-card"+(done?" completed":"")+"' onclick='openLesson(\"
 }
 list.innerHTML=html||"<div class='card'><p>قريباً...</p></div>";
 }
-
 function openLesson(id){
 var LESSONS=getLessons();
 var lesson=null;for(var i=0;i<LESSONS.length;i++){if(LESSONS[i].id===id){lesson=LESSONS[i];break;}}
@@ -94,8 +133,8 @@ if(progress.completedLessons.indexOf(id)!==-1){btn.textContent="✓ مكتمل";
 else{btn.textContent="✓ أكملت هذا الدرس";btn.style.background="";btn.onclick=function(){markLessonComplete(id)};}
 showSection("lesson-view");
 }
-
 function markLessonComplete(id){
+if(id&&progress.completedLessons.indexOf(id)!==-1)return;
 if(id&&progress.completedLessons.indexOf(id)===-1){
 progress.completedLessons.push(id);
 var today=new Date().toISOString().slice(0,10);
@@ -106,7 +145,7 @@ progress.lastStudyDate=today;
 }
 progress.wordsLearned=(progress.wordsLearned||0)+15;
 saveProgress(progress);updateUI();
-var btn=document.getElementById("mark-complete-btn");btn.textContent="✓ مكتمل - أحسنت!";btn.style.background="#27ae60";
+var btn=document.getElementById("mark-complete-btn");if(btn){btn.textContent="✓ مكتمل - أحسنت!";btn.style.background="#27ae60";}
 }
 }
 
@@ -129,9 +168,8 @@ function exportProgress(){
 try{
 var data=loadProgress();data.exportedAt=new Date().toISOString();
 var json=JSON.stringify(data,null,2);
-if(navigator.clipboard&&navigator.clipboard.writeText){
-navigator.clipboard.writeText(json).then(function(){alert("تم نسخ التقدم!");});
-}else{prompt("انسخ:",json);}
+if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(json).then(function(){alert("تم نسخ التقدم!");});}
+else{prompt("انسخ:",json);}
 }catch(e){alert("خطأ: "+e.message);}
 }
 function importProgress(){
@@ -141,8 +179,7 @@ try{
 var data=JSON.parse(json.trim());
 if(!confirm("استبدال التقدم؟"))return;
 var clean={completedLessons:Array.isArray(data.completedLessons)?data.completedLessons:[],streak:data.streak||0,lastStudyDate:data.lastStudyDate||null,wordsLearned:data.wordsLearned||0,startDate:data.startDate||new Date().toISOString().slice(0,10)};
-saveProgress(clean);progress=clean;updateUI();
-alert("تم الاستيراد!");
+saveProgress(clean);progress=clean;updateUI();alert("تم الاستيراد!");
 }catch(e){alert("فشل: "+e.message);}
 }
 
@@ -213,44 +250,37 @@ document.getElementById("scan-preview-wrap").classList.remove("hidden");
 document.getElementById("scan-ocr-btn").disabled=false;};
 reader.readAsDataURL(file);
 }
-function clearScanImage(){
-scanImageData=null;
-document.getElementById("scan-preview-wrap").classList.add("hidden");
-document.getElementById("scan-ocr-btn").disabled=true;
-}
+function clearScanImage(){scanImageData=null;var w=document.getElementById("scan-preview-wrap");if(w)w.classList.add("hidden");var b=document.getElementById("scan-ocr-btn");if(b)b.disabled=true;}
 async function runOCR(){
 if(!scanImageData||typeof Tesseract==="undefined"){alert("ارفع صورة");return;}
 var btn=document.getElementById("scan-ocr-btn");var status=document.getElementById("scan-ocr-status");
-btn.disabled=true;status.textContent="جاري التحليل...";
+if(btn)btn.disabled=true;if(status)status.textContent="جاري التحليل...";
 try{
 var result=await Tesseract.recognize(scanImageData,"deu");
 var text=(result&&result.data&&result.data.text)?result.data.text.trim():"";
 document.getElementById("scan-input").value=text||"";
-status.textContent=text?"تم":"لم يُعثر على نص";
-}catch(e){status.textContent="فشلت";}
-btn.disabled=false;
+if(status)status.textContent=text?"تم":"لم يُعثر على نص";
+}catch(e){if(status)status.textContent="فشلت";}
+if(btn)btn.disabled=false;
 }
-function escapeHtml(s){
-if(!s)return "";
-return String(s).split("&").join("&").split("<").join("<").split(">").join(">").split('"').join(""");
-}
+function escapeHtml(s){if(!s)return "";return String(s).split("&").join("&").split("<").join("<").split(">").join(">").split('"').join(""");}
 async function analyzeGermanText(){
 var text=(document.getElementById("scan-input").value||"").trim();
 if(!text){alert("اكتب نصاً");return;}
 var box=document.getElementById("scan-errors-box");var hl=document.getElementById("scan-highlighted");var corr=document.getElementById("scan-corrections");
-box.classList.remove("hidden");hl.innerHTML="جاري...";corr.innerHTML="";
+if(box)box.classList.remove("hidden");if(hl)hl.innerHTML="جاري...";if(corr)corr.innerHTML="";
 try{
 var res=await fetch("https://api.languagetool.org/v2/check",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:"text="+encodeURIComponent(text)+"&language=de-DE"});
 var data=await res.json();var matches=data.matches||[];
-if(matches.length===0){hl.innerHTML=escapeHtml(text);corr.innerHTML="لا أخطاء";return;}
+if(matches.length===0){if(hl)hl.innerHTML=escapeHtml(text);if(corr)corr.innerHTML="لا أخطاء";return;}
 matches.sort(function(a,b){return b.offset-a.offset});
 var html=text;
 for(var i=0;i<matches.length;i++){
 var m=matches[i];
 html=html.substring(0,m.offset)+"<span class='scan-err'>"+escapeHtml(text.substring(m.offset,m.offset+m.length))+"</span>"+html.substring(m.offset+m.length);
 }
-hl.innerHTML=html;corr.innerHTML="وُجد "+matches.length+" خطأ";
-}catch(e){hl.innerHTML=escapeHtml(text);corr.innerHTML="تعذر";}
+if(hl)hl.innerHTML=html;if(corr)corr.innerHTML="وُجد "+matches.length+" خطأ";
+}catch(e){if(hl)hl.innerHTML=escapeHtml(text);if(corr)corr.innerHTML="تعذر";}
 }
 function speakScanText(){
 var text=(document.getElementById("scan-input").value||"").trim();
@@ -261,16 +291,15 @@ async function translateScanText(){
 var text=(document.getElementById("scan-input").value||"").trim();
 if(!text)return;
 var box=document.getElementById("scan-translation");
-box.classList.remove("hidden");box.innerHTML="جاري...";
+if(box){box.classList.remove("hidden");box.innerHTML="جاري...";}
 try{
 var res=await fetch("https://api.mymemory.translated.net/get?q="+encodeURIComponent(text.substring(0,400))+"&langpair=de|ar");
 var data=await res.json();
 var t=(data.responseData&&data.responseData.translatedText)||"تعذرت";
-box.innerHTML="<strong>الترجمة:</strong><br>"+escapeHtml(t);
-}catch(e){box.innerHTML="تعذر";}
+if(box)box.innerHTML="<strong>الترجمة:</strong><br>"+escapeHtml(t);
+}catch(e){if(box)box.innerHTML="تعذر";}
 }
 
-/* Wordbank */
 var currentWordbankTab="vocab";
 function showWordbankTab(tab){
 currentWordbankTab=tab||"vocab";
