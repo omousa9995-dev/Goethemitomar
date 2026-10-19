@@ -1,6 +1,17 @@
 /* Goethe mit Omar - App Logic */
 const STORAGE_KEY = "goethe_v4";
-function getLessons(){ return window.LESSONS || []; }
+function getLessons(){
+  try{ if(typeof LESSONS!=="undefined"&&LESSONS&&LESSONS.length) return LESSONS; }catch(e){}
+  return window.LESSONS||[];
+}
+function getStories(){
+  try{ if(typeof STORIES!=="undefined"&&STORIES&&STORIES.length) return STORIES; }catch(e){}
+  return window.STORIES||[];
+}
+function getExams(){
+  try{ if(typeof EXAMS!=="undefined"&&EXAMS&&EXAMS.length) return EXAMS; }catch(e){}
+  return window.EXAMS||[];
+}
 
 const REDEMITTEL = {
 a1:[
@@ -189,7 +200,7 @@ currentStoryLevel=level;
 var tabs=document.querySelectorAll("[data-story-level]");
 for(var i=0;i<tabs.length;i++)tabs[i].classList.toggle("active",tabs[i].getAttribute("data-story-level")===level);
 var list=document.getElementById("stories-list");if(!list)return;
-var stories=(window.STORIES||[]).filter(function(s){return s.level===level});
+var stories=getStories().filter(function(s){return s.level===level});
 var html="";
 for(var i=0;i<stories.length;i++){
 var s=stories[i];
@@ -198,7 +209,7 @@ html+="<div class='lesson-card' onclick='openStory(\""+s.id+"\")'><div class='le
 list.innerHTML=html||"<div class='card'><p>قريباً...</p></div>";
 }
 function openStory(id){
-var story=null,all=window.STORIES||[];
+var story=null,all=getStories();
 for(var i=0;i<all.length;i++)if(all[i].id===id){story=all[i];break;}
 if(!story)return;
 var badge=document.getElementById("sv-badge");
@@ -221,7 +232,7 @@ currentExamLevel=level;
 var tabs=document.querySelectorAll("[data-exam-level]");
 for(var i=0;i<tabs.length;i++)tabs[i].classList.toggle("active",tabs[i].getAttribute("data-exam-level")===level);
 var list=document.getElementById("exams-list");if(!list)return;
-var exams=(window.EXAMS||[]).filter(function(e){return e.level===level});
+var exams=getExams().filter(function(e){return e.level===level});
 var html="";
 for(var i=0;i<exams.length;i++){
 var e=exams[i];
@@ -230,7 +241,7 @@ html+="<div class='lesson-card' onclick='openExam(\""+e.id+"\")'><div class='les
 list.innerHTML=html||"<div class='card'><p>قريباً...</p></div>";
 }
 function openExam(id){
-var exam=null,all=window.EXAMS||[];
+var exam=null,all=getExams();
 for(var i=0;i<all.length;i++)if(all[i].id===id){exam=all[i];break;}
 if(!exam)return;
 var badge=document.getElementById("ev-badge");
@@ -240,29 +251,6 @@ var content=document.getElementById("exam-content");if(content)content.innerHTML
 showSection("exam-view");
 }
 
-var scanImageData=null;
-function handleScanImage(event){
-var file=event.target.files&&event.target.files[0];if(!file)return;
-var reader=new FileReader();
-reader.onload=function(e){scanImageData=e.target.result;
-document.getElementById("scan-preview").src=scanImageData;
-document.getElementById("scan-preview-wrap").classList.remove("hidden");
-document.getElementById("scan-ocr-btn").disabled=false;};
-reader.readAsDataURL(file);
-}
-function clearScanImage(){scanImageData=null;var w=document.getElementById("scan-preview-wrap");if(w)w.classList.add("hidden");var b=document.getElementById("scan-ocr-btn");if(b)b.disabled=true;}
-async function runOCR(){
-if(!scanImageData||typeof Tesseract==="undefined"){alert("ارفع صورة");return;}
-var btn=document.getElementById("scan-ocr-btn");var status=document.getElementById("scan-ocr-status");
-if(btn)btn.disabled=true;if(status)status.textContent="جاري التحليل...";
-try{
-var result=await Tesseract.recognize(scanImageData,"deu");
-var text=(result&&result.data&&result.data.text)?result.data.text.trim():"";
-document.getElementById("scan-input").value=text||"";
-if(status)status.textContent=text?"تم":"لم يُعثر على نص";
-}catch(e){if(status)status.textContent="فشلت";}
-if(btn)btn.disabled=false;
-}
 function escapeHtml(s){if(!s)return "";var d=document.createElement("div");d.appendChild(document.createTextNode(String(s)));return d.innerHTML;}
 async function analyzeGermanText(){
 var text=(document.getElementById("scan-input").value||"").trim();
@@ -281,23 +269,6 @@ html=html.substring(0,m.offset)+"<span class='scan-err'>"+escapeHtml(text.substr
 }
 if(hl)hl.innerHTML=html;if(corr)corr.innerHTML="وُجد "+matches.length+" خطأ";
 }catch(e){if(hl)hl.innerHTML=escapeHtml(text);if(corr)corr.innerHTML="تعذر";}
-}
-function speakScanText(){
-var text=(document.getElementById("scan-input").value||"").trim();
-if(!text)return;
-if("speechSynthesis" in window){var u=new SpeechSynthesisUtterance(text);u.lang="de-DE";speechSynthesis.speak(u);}
-}
-async function translateScanText(){
-var text=(document.getElementById("scan-input").value||"").trim();
-if(!text)return;
-var box=document.getElementById("scan-translation");
-if(box){box.classList.remove("hidden");box.innerHTML="جاري...";}
-try{
-var res=await fetch("https://api.mymemory.translated.net/get?q="+encodeURIComponent(text.substring(0,400))+"&langpair=de|ar");
-var data=await res.json();
-var t=(data.responseData&&data.responseData.translatedText)||"تعذرت";
-if(box)box.innerHTML="<strong>الترجمة:</strong><br>"+escapeHtml(t);
-}catch(e){if(box)box.innerHTML="تعذر";}
 }
 
 var currentWordbankTab="vocab";
