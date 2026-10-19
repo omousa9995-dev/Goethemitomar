@@ -263,7 +263,7 @@ if(status)status.textContent=text?"تم":"لم يُعثر على نص";
 }catch(e){if(status)status.textContent="فشلت";}
 if(btn)btn.disabled=false;
 }
-function escapeHtml(s){if(!s)return "";return String(s).split("&").join("&").split("<").join("<").split(">").join(">").split('"').join(""");}
+function escapeHtml(s){if(!s)return "";var d=document.createElement("div");d.appendChild(document.createTextNode(String(s)));return d.innerHTML;}
 async function analyzeGermanText(){
 var text=(document.getElementById("scan-input").value||"").trim();
 if(!text){alert("اكتب نصاً");return;}
