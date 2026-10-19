@@ -2,66 +2,215 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="theme-color" content="#0a7a3e" />
-  <title>Goethe mit Omar</title>
-  <link rel="stylesheet" href="style.css?v=12" />
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#1a5c3a" />
+  <meta name="description" content="Goethe mit Omar — Structured A1–B2 German. Arabic · English · Deutsch." />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <link rel="manifest" href="manifest.json" />
+  <title>Goethe mit Omar | A1–B2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css?v=20" />
 </head>
 <body>
-  <header class="header"><div class="header-inner">
-    <div class="logo" onclick="showSection('dashboard')"><span class="logo-icon">🇩🇪</span><div><div class="logo-title">Goethe mit Omar</div><div class="logo-sub">من الصفر إلى B2</div></div></div>
-    <div class="header-progress"><div class="progress-info"><span id="overall-percent">0%</span><span class="progress-label">التقدم</span></div><div class="progress-bar"><div class="progress-fill" id="overall-bar" style="width:0%"></div></div></div>
-  </div></header>
-  <nav class="bottom-nav">
-    <button class="nav-btn active" data-section="dashboard" onclick="showSection('dashboard')"><span class="nav-icon">🏠</span><span>رئيسية</span></button>
-    <button class="nav-btn" data-section="lessons" onclick="showSection('lessons')"><span class="nav-icon">📚</span><span>دروس</span></button>
-    <button class="nav-btn" data-section="stories" onclick="showSection('stories')"><span class="nav-icon">📖</span><span>قراءة</span></button>
-    <button class="nav-btn" data-section="redemittel" onclick="showSection('redemittel')"><span class="nav-icon">💬</span><span>عبارات</span></button>
-    <button class="nav-btn" data-section="exams" onclick="showSection('exams')"><span class="nav-icon">📝</span><span>امتحانات</span></button>
-    <button class="nav-btn" data-section="resources" onclick="showSection('resources')"><span class="nav-icon">🔗</span><span>موارد</span></button>
-    <button class="nav-btn" data-section="wordbank" onclick="showSection('wordbank')"><span class="nav-icon">🃏</span><span>بنك</span></button>
-    <button class="nav-btn" data-section="scan" onclick="showSection('scan')"><span class="nav-icon">🔍</span><span>Scan</span></button>
-  </nav>
-  <main class="main">
-    <section id="dashboard" class="section active">
-      <div class="welcome-card"><h1>مرحباً بك 👋</h1><p class="welcome-text">هدفك: <strong>B2</strong> · منهج Goethe</p>
-        <div class="stats-grid">
-          <div class="stat-card"><div class="stat-value" id="streak-count">0</div><div class="stat-label">أيام</div></div>
-          <div class="stat-card"><div class="stat-value" id="lessons-done">0</div><div class="stat-label">دروس</div></div>
-          <div class="stat-card"><div class="stat-value" id="words-learned">0</div><div class="stat-label">كلمات</div></div>
-          <div class="stat-card"><div class="stat-value" id="days-left">210</div><div class="stat-label">متبقي</div></div>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <button type="button" class="brand" onclick="showSection('home')" aria-label="Home">
+        <span class="brand-mark">G</span>
+        <span class="brand-text">
+          <span class="brand-name">Goethe mit Omar</span>
+          <span class="brand-tag">A1–B2 · AR · EN · DE</span>
+        </span>
+      </button>
+      <div class="topbar-meta">
+        <div class="streak-chip" id="streak-chip"><span>🔥</span><span id="streak-count">0</span></div>
+        <div class="progress-chip"><span id="overall-percent">0%</span></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main" id="main">
+    <section id="home" class="section active">
+      <div class="hero">
+        <p class="eyebrow">ANKOMMEN · TO ARRIVE</p>
+        <h1 class="hero-title">
+          تعلّم الألمانية.<br />
+          <span class="hero-accent">نجاح Goethe.</span><br />
+          <em class="hero-em">من A1 إلى B2.</em>
+        </h1>
+        <p class="hero-lead">
+          مسار منظم بالعربية والإنجليزية والألمانية — دروس، تدريب، وامتحانات.
+          <span class="hero-lead-en">Structured German for real progress.</span>
+        </p>
+        <div class="hero-actions">
+          <button type="button" class="btn btn-primary" id="btn-continue" onclick="continueLearning()">ابدأ / تابع · Continue</button>
+          <button type="button" class="btn btn-ghost" onclick="showSection('path')">استكشف المسار · Path</button>
         </div>
       </div>
-      <div class="card"><h2>📅 درس اليوم</h2><div id="today-lesson" class="today-lesson"></div></div>
-      <div class="card"><h2>📊 المستويات</h2>
-        <div class="levels-progress">
-          <div class="level-item" onclick="filterLessons('a1');showSection('lessons')"><div class="level-header"><span class="level-badge a1">A1</span><span id="a1-percent">0%</span></div><div class="progress-bar small"><div class="progress-fill" id="a1-bar" style="width:0%"></div></div></div>
-          <div class="level-item" onclick="filterLessons('a2');showSection('lessons')"><div class="level-header"><span class="level-badge a2">A2</span><span id="a2-percent">0%</span></div><div class="progress-bar small"><div class="progress-fill" id="a2-bar" style="width:0%"></div></div></div>
-          <div class="level-item" onclick="filterLessons('b1');showSection('lessons')"><div class="level-header"><span class="level-badge b1">B1</span><span id="b1-percent">0%</span></div><div class="progress-bar small"><div class="progress-fill" id="b1-bar" style="width:0%"></div></div></div>
-          <div class="level-item" onclick="filterLessons('b2');showSection('lessons')"><div class="level-header"><span class="level-badge b2">B2</span><span id="b2-percent">0%</span></div><div class="progress-bar small"><div class="progress-fill" id="b2-bar" style="width:0%"></div></div></div>
-        </div>
+      <div class="home-grid">
+        <article class="card next-card" id="next-lesson-card">
+          <p class="card-label">الخطوة التالية · Next</p>
+          <h2 id="next-title">—</h2>
+          <p class="muted" id="next-sub">—</p>
+          <button type="button" class="btn btn-primary btn-sm" id="next-btn" onclick="continueLearning()">افتح الفصل</button>
+        </article>
+        <article class="card stats-card">
+          <p class="card-label">تقدمك · Progress</p>
+          <div class="stat-row">
+            <div><span class="stat-num" id="stat-lessons">0</span><span class="stat-label">فصل مكتمل</span></div>
+            <div><span class="stat-num" id="stat-streak">0</span><span class="stat-label">أيام متتالية</span></div>
+          </div>
+          <div class="progress-bar wide"><div class="progress-fill" id="overall-bar" style="width:0%"></div></div>
+        </article>
       </div>
-      <div class="card"><h2>🃏 بنك</h2>
-        <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn btn-primary" style="flex:1" onclick="showWordbankTab('vocab');showSection('wordbank')">مفردات</button><button class="btn" style="flex:1;background:#2980b9;color:#fff" onclick="showWordbankTab('sentences');showSection('wordbank')">جمل</button></div>
+      <div class="level-strip">
+        <button type="button" class="level-pill" onclick="openPathLevel('a1')"><span>A1</span><small>أساسيات</small></button>
+        <button type="button" class="level-pill" onclick="openPathLevel('a2')"><span>A2</span><small>توسّع</small></button>
+        <button type="button" class="level-pill" onclick="openPathLevel('b1')"><span>B1</span><small>استقلال</small></button>
+        <button type="button" class="level-pill" onclick="openPathLevel('b2')"><span>B2</span><small>إتقان</small></button>
       </div>
     </section>
-    <section id="lessons" class="section"><div class="tabs"><button class="tab-btn active" data-level="a1" onclick="filterLessons('a1')">A1</button><button class="tab-btn" data-level="a2" onclick="filterLessons('a2')">A2</button><button class="tab-btn" data-level="b1" onclick="filterLessons('b1')">B1</button><button class="tab-btn" data-level="b2" onclick="filterLessons('b2')">B2</button></div><div id="lessons-list" class="lessons-list"></div></section>
-    <section id="lesson-view" class="section"><button class="btn-back" onclick="showSection('lessons')">← رجوع</button><div class="lesson-header"><span class="level-badge" id="lv-badge">A1</span><h1 id="lv-title"></h1></div><div id="lesson-content" class="lesson-content"></div><button id="mark-complete-btn" class="btn btn-primary" style="width:100%;margin-top:20px">✓ أكملت</button></section>
-    <section id="stories" class="section"><div class="card"><h1>📖 قراءة</h1><div class="level-tabs"><button class="tab-btn active" data-story-level="a1" onclick="filterStories('a1')">A1</button><button class="tab-btn" data-story-level="a2" onclick="filterStories('a2')">A2</button><button class="tab-btn" data-story-level="b1" onclick="filterStories('b1')">B1</button><button class="tab-btn" data-story-level="b2" onclick="filterStories('b2')">B2</button></div><div id="stories-list"></div></div></section>
-    <section id="story-view" class="section"><button class="btn-back" onclick="showSection('stories')">← رجوع</button><div class="lesson-header"><span class="level-badge" id="sv-badge">A1</span><h1 id="sv-title"></h1></div><div id="story-content" class="lesson-content"></div></section>
-    <section id="redemittel" class="section"><h2>💬 عبارات</h2><div class="tabs"><button class="tab-btn active" data-rm="a1" onclick="filterRedemittel('a1')">A1</button><button class="tab-btn" data-rm="a2" onclick="filterRedemittel('a2')">A2</button><button class="tab-btn" data-rm="b1" onclick="filterRedemittel('b1')">B1</button><button class="tab-btn" data-rm="b2" onclick="filterRedemittel('b2')">B2</button></div><div id="redemittel-list"></div></section>
-    <section id="exams" class="section"><div class="card"><h1>📝 امتحانات</h1><div class="level-tabs"><button class="tab-btn active" data-exam-level="a1" onclick="filterExams('a1')">A1</button><button class="tab-btn" data-exam-level="a2" onclick="filterExams('a2')">A2</button><button class="tab-btn" data-exam-level="b1" onclick="filterExams('b1')">B1</button><button class="tab-btn" data-exam-level="b2" onclick="filterExams('b2')">B2</button></div><div id="exams-list"></div></div></section>
-    <section id="exam-view" class="section"><button class="btn-back" onclick="showSection('exams')">← رجوع</button><div class="lesson-header"><span class="level-badge" id="ev-badge">A1</span><h1 id="ev-title"></h1></div><div id="exam-content" class="lesson-content"></div></section>
-    <section id="resources" class="section"><div class="card"><h1>🔗 موارد</h1><a class="resource-item" href="https://www.goethe.de" target="_blank">Goethe-Institut</a></div></section>
-    <section id="wordbank" class="section"><h2>🃏 بنك</h2><div class="tabs"><button class="tab-btn active" id="wb-tab-vocab" onclick="showWordbankTab('vocab')">مفردات</button><button class="tab-btn" id="wb-tab-sentences" onclick="showWordbankTab('sentences')">جمل</button></div><div id="wordbank-vocab"><div id="vocab-cats-list"></div><div id="vocab-cards-view" class="hidden"><button class="btn-back" onclick="closeVocabCards()">← رجوع</button><h3 id="vocab-cat-title"></h3><div id="vocab-cards" class="vocab-cards-grid"></div></div></div><div id="wordbank-sentences" class="hidden"><div id="sentences-cats-list"></div><div id="sentences-list-view" class="hidden"><button class="btn-back" onclick="closeSentencesList()">← رجوع</button><h3 id="sentences-cat-title"></h3><div id="sentences-items"></div></div></div></section>
-    <section id="scan" class="section"><h2>🔍 Scan</h2><div class="card"><textarea id="scan-input" rows="3" placeholder="نص ألماني..." style="width:100%;padding:12px;direction:ltr"></textarea><button class="btn btn-primary" style="width:100%;margin-top:10px" onclick="analyzeGermanText()">تحليل</button><div id="scan-errors-box" class="hidden"><div id="scan-highlighted"></div><div id="scan-corrections"></div></div></div></section>
+
+    <section id="path" class="section">
+      <div class="section-head">
+        <h1>المسار · Learning Path</h1>
+        <p class="muted">فصول مرقمة من A1 إلى B2</p>
+      </div>
+      <div class="tabs" id="path-tabs">
+        <button type="button" class="tab active" data-level="a1" onclick="filterPath('a1')">A1</button>
+        <button type="button" class="tab" data-level="a2" onclick="filterPath('a2')">A2</button>
+        <button type="button" class="tab" data-level="b1" onclick="filterPath('b1')">B1</button>
+        <button type="button" class="tab" data-level="b2" onclick="filterPath('b2')">B2</button>
+      </div>
+      <div id="path-list" class="chapter-list"></div>
+    </section>
+
+    <section id="lesson-view" class="section">
+      <button type="button" class="back-link" onclick="showSection('path')">← المسار · Path</button>
+      <div class="lesson-meta">
+        <span class="badge" id="lv-badge">A1</span>
+        <span class="muted" id="lv-time"></span>
+      </div>
+      <h1 id="lv-title" class="lesson-title">—</h1>
+      <p class="lesson-title-sub" id="lv-title-sub"></p>
+      <article id="lesson-content" class="lesson-body prose"></article>
+      <div class="lesson-footer">
+        <button type="button" class="btn btn-primary" id="mark-complete-btn">✓ أكملت هذا الفصل · Mark complete</button>
+      </div>
+    </section>
+
+    <section id="practice" class="section">
+      <div class="section-head">
+        <h1>تدريب · Practice</h1>
+        <p class="muted">مفردات · جمل · عبارات</p>
+      </div>
+      <div class="tabs" id="practice-tabs">
+        <button type="button" class="tab active" data-tab="vocab" onclick="showPracticeTab('vocab')">مفردات · Vocab</button>
+        <button type="button" class="tab" data-tab="sentences" onclick="showPracticeTab('sentences')">جمل · Sentences</button>
+        <button type="button" class="tab" data-tab="phrases" onclick="showPracticeTab('phrases')">عبارات · Phrases</button>
+      </div>
+      <div id="practice-panel" class="practice-panel"></div>
+    </section>
+
+    <section id="exam" class="section">
+      <div class="section-head">
+        <h1>امتحان · Exam</h1>
+        <p class="muted">نماذج Goethe · A1–B2</p>
+      </div>
+      <div class="tabs" id="exam-tabs">
+        <button type="button" class="tab active" data-level="a1" onclick="filterExams('a1')">A1</button>
+        <button type="button" class="tab" data-level="a2" onclick="filterExams('a2')">A2</button>
+        <button type="button" class="tab" data-level="b1" onclick="filterExams('b1')">B1</button>
+        <button type="button" class="tab" data-level="b2" onclick="filterExams('b2')">B2</button>
+      </div>
+      <div id="exams-list" class="chapter-list"></div>
+      <div id="exam-view" class="exam-view hidden"></div>
+    </section>
+
+    <section id="more" class="section">
+      <div class="section-head">
+        <h1>المزيد · More</h1>
+        <p class="muted">قراءة · موارد · تقدمك</p>
+      </div>
+      <div class="more-grid">
+        <button type="button" class="more-tile" onclick="showSection('reading')">
+          <span class="more-icon">📖</span><span>قراءة · Reading</span><small>قصص قصيرة</small>
+        </button>
+        <button type="button" class="more-tile" onclick="showSection('resources')">
+          <span class="more-icon">🔗</span><span>موارد · Resources</span><small>Goethe · قنوات</small>
+        </button>
+        <button type="button" class="more-tile" onclick="exportProgress()">
+          <span class="more-icon">💾</span><span>تصدير التقدم</span><small>جهاز آخر</small>
+        </button>
+        <button type="button" class="more-tile" onclick="document.getElementById('import-file').click()">
+          <span class="more-icon">📥</span><span>استيراد التقدم</span><small>من ملف</small>
+        </button>
+      </div>
+      <input type="file" id="import-file" accept="application/json" class="hidden" onchange="importProgress(event)" />
+      <div class="card tip-card">
+        <p class="card-label">بدون حساب؟</p>
+        <p class="muted">التقدم يُحفظ محلياً. صدّر الملف وافتحه على جهاز آخر لمزامنة يدوية.</p>
+      </div>
+    </section>
+
+    <section id="reading" class="section">
+      <button type="button" class="back-link" onclick="showSection('more')">← المزيد</button>
+      <div class="section-head">
+        <h1>قراءة · Reading</h1>
+        <p class="muted">قصص قصيرة · Short texts</p>
+      </div>
+      <div class="tabs">
+        <button type="button" class="tab active" data-level="a1" onclick="filterStories('a1')">A1</button>
+        <button type="button" class="tab" data-level="a2" onclick="filterStories('a2')">A2</button>
+        <button type="button" class="tab" data-level="b1" onclick="filterStories('b1')">B1</button>
+        <button type="button" class="tab" data-level="b2" onclick="filterStories('b2')">B2</button>
+      </div>
+      <div id="stories-list" class="chapter-list"></div>
+      <article id="story-view" class="lesson-body prose hidden"></article>
+    </section>
+
+    <section id="resources" class="section">
+      <button type="button" class="back-link" onclick="showSection('more')">← المزيد</button>
+      <div class="section-head"><h1>موارد · Resources</h1></div>
+      <div class="resource-list">
+        <a class="resource-item" href="https://www.goethe.de/en/spr/kup/prf.html" target="_blank" rel="noopener">
+          <strong>Goethe-Institut — Exams</strong><span>Official exam info</span>
+        </a>
+        <a class="resource-item" href="https://www.goethe.de/ins/de/en/spr/ueb.html" target="_blank" rel="noopener">
+          <strong>Goethe — Practice</strong><span>Sample sets</span>
+        </a>
+        <a class="resource-item" href="https://www.youtube.com/@EasyGerman" target="_blank" rel="noopener">
+          <strong>Easy German (YouTube)</strong><span>Real spoken German</span>
+        </a>
+        <a class="resource-item" href="https://www.dw.com/en/learn-german/s-2469" target="_blank" rel="noopener">
+          <strong>DW Learn German</strong><span>Free courses</span>
+        </a>
+        <a class="resource-item" href="https://www.telc.net/en.html" target="_blank" rel="noopener">
+          <strong>telc</strong><span>Alternative exams</span>
+        </a>
+      </div>
+    </section>
   </main>
-  <script src="lessons.js?v=12"></script>
-  <script src="stories.js?v=12"></script>
-  <script src="exams.js?v=12"></script>
-  <script src="vocab-a1-ready.js?v=12"></script>
-  <script src="sentences-a1-ready.js?v=12"></script>
-  <script src="app.js?v=12"></script>
-  <script>if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(function(r){r.forEach(function(x){x.unregister()})}).catch(function(){})}</script>
-</body></html>
+
+  <nav class="bottom-nav" aria-label="Main">
+    <button type="button" class="nav-btn active" data-section="home" onclick="showSection('home')"><span class="nav-ico">⌂</span><span>رئيسية</span></button>
+    <button type="button" class="nav-btn" data-section="path" onclick="showSection('path')"><span class="nav-ico">☰</span><span>المسار</span></button>
+    <button type="button" class="nav-btn" data-section="practice" onclick="showSection('practice')"><span class="nav-ico">✎</span><span>تدريب</span></button>
+    <button type="button" class="nav-btn" data-section="exam" onclick="showSection('exam')"><span class="nav-ico">✓</span><span>امتحان</span></button>
+    <button type="button" class="nav-btn" data-section="more" onclick="showSection('more')"><span class="nav-ico">···</span><span>المزيد</span></button>
+  </nav>
+
+  <script src="lessons.js?v=20"></script>
+  <script src="stories.js?v=20"></script>
+  <script src="exams.js?v=20"></script>
+  <script src="vocab-a1-ready.js?v=20"></script>
+  <script src="sentences-a1-ready.js?v=20"></script>
+  <script src="app.js?v=20"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js?v=20').catch(function () {});
+    }
+  </script>
+</body>
+</html>
