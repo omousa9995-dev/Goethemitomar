@@ -41,6 +41,7 @@
     <button class="nav-btn" data-section="redemittel" onclick="showSection('redemittel')"><span class="nav-icon">💬</span><span>عبارات</span></button>
     <button class="nav-btn" data-section="exams" onclick="showSection('exams')"><span class="nav-icon">📝</span><span>امتحانات</span></button>
     <button class="nav-btn" data-section="resources" onclick="showSection('resources')"><span class="nav-icon">🔗</span><span>موارد</span></button>
+    <button class="nav-btn" data-section="wordbank" onclick="showSection('wordbank')"><span class="nav-icon">🃏</span><span>بنك</span></button>
     <button class="nav-btn" data-section="scan" onclick="showSection('scan')"><span class="nav-icon">🔍</span><span>Scan</span></button>
   </nav>
 
@@ -67,6 +68,14 @@
         </div>
       </div>
       <div class="card">
+        <h2>🃏 بنك المفردات والجمل</h2>
+        <p class="subtitle">بطاقات مفردات A1 · جمل جاهزة للحفظ</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
+          <button class="btn btn-primary" style="flex:1;min-width:140px" onclick="showWordbankTab('vocab');showSection('wordbank')">📚 بطاقات المفردات</button>
+          <button class="btn" style="flex:1;min-width:140px;background:#2980b9;color:#fff" onclick="showWordbankTab('sentences');showSection('wordbank')">💬 بنك الجمل</button>
+        </div>
+      </div>
+      <div class="card">
         <h2>🗺️ خريطة الطريق (7 أشهر)</h2>
         <div class="roadmap">
           <div class="roadmap-item"><span class="rm-month">1–2</span><span>A1 كامل + تمارين + نماذج امتحان</span></div>
@@ -82,7 +91,6 @@
           <button class="btn btn-primary" style="flex:1;min-width:140px" onclick="exportProgress()">📤 تصدير التقدم</button>
           <button class="btn" style="flex:1;min-width:140px;background:#2980b9;color:#fff" onclick="importProgress()">📥 استيراد التقدم</button>
         </div>
-        <p style="font-size:0.8rem;color:#666;margin-top:10px">1) اضغط تصدير ← تُنسخ البيانات<br>2) أرسلها لنفسك (واتساب/إيميل)<br>3) على الجهاز الثاني: الصقها عبر استيراد</p>
       </div>
     </section>
 
@@ -109,7 +117,7 @@
     <section id="stories" class="section">
       <div class="card">
         <h1>📖 قصص قصيرة للقراءة</h1>
-        <p class="subtitle">نصوص متدرجة من A1 إلى B2 مع مفردات وأسئلة فهم</p>
+        <p class="subtitle">نصوص متدرجة من A1 إلى B2</p>
         <div class="level-tabs" style="margin-bottom:16px">
           <button class="tab-btn active" data-story-level="a1" onclick="filterStories('a1')">A1</button>
           <button class="tab-btn" data-story-level="a2" onclick="filterStories('a2')">A2</button>
@@ -127,9 +135,7 @@
         <h1 id="sv-title">عنوان القصة</h1>
       </div>
       <div id="story-content" class="lesson-content"></div>
-      <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap">
-        <button class="btn btn-primary" style="flex:1" onclick="speakStory()">🔊 استمع للقصة</button>
-      </div>
+      <div style="margin-top:20px"><button class="btn btn-primary" style="width:100%" onclick="speakStory()">🔊 استمع للقصة</button></div>
     </section>
 
     <section id="redemittel" class="section">
@@ -146,7 +152,6 @@
     <section id="exams" class="section">
       <div class="card">
         <h1>📝 نماذج امتحانات Goethe</h1>
-        <p class="subtitle">نماذج تدريب من A1 إلى B2 (Lesen · Schreiben · Sprechen)</p>
         <div class="level-tabs" style="margin-bottom:16px">
           <button class="tab-btn active" data-exam-level="a1" onclick="filterExams('a1')">A1</button>
           <button class="tab-btn" data-exam-level="a2" onclick="filterExams('a2')">A2</button>
@@ -158,7 +163,7 @@
     </section>
 
     <section id="exam-view" class="section">
-      <button class="btn-back" onclick="showSection('exams')">← رجوع للامتحانات</button>
+      <button class="btn-back" onclick="showSection('exams')">← رجوع</button>
       <div class="lesson-header">
         <span class="level-badge" id="ev-badge">A1</span>
         <h1 id="ev-title">عنوان الامتحان</h1>
@@ -167,81 +172,56 @@
     </section>
 
     <section id="resources" class="section">
+      <div class="card"><h1>🔗 موارد مهمة</h1></div>
       <div class="card">
-        <h1>🔗 موارد مهمة</h1>
-        <p class="subtitle">قنوات يوتيوب + روابط غوته الرسمية + أدوات مفيدة</p>
-      </div>
-      <div class="card">
-        <h2>📺 قنوات يوتيوب موصى بها</h2>
+        <h2>📺 قنوات يوتيوب</h2>
         <div class="resource-list">
-          <a class="resource-item" href="https://www.youtube.com/@EasyGerman" target="_blank" rel="noopener"><span class="res-icon">🇩🇪</span><div><strong>Easy German</strong><p>مقابلات حقيقية في الشارع + ترجمة – ممتازة للاستماع</p></div></a>
-          <a class="resource-item" href="https://www.youtube.com/@DeutschmitRieke" target="_blank" rel="noopener"><span class="res-icon">👩‍🏫</span><div><strong>Deutsch mit Rieke</strong><p>شرح واضح للقواعد والمفردات بطريقة ممتعة</p></div></a>
-          <a class="resource-item" href="https://www.youtube.com/@LearnGermanwithAnja" target="_blank" rel="noopener"><span class="res-icon">📚</span><div><strong>Learn German with Anja</strong><p>دروس منظمة من A1 إلى B2 مع تمارين</p></div></a>
-          <a class="resource-item" href="https://www.youtube.com/@DeutschfuerEuch" target="_blank" rel="noopener"><span class="res-icon">💬</span><div><strong>Deutsch für Euch</strong><p>شرح عامية ألمانية + ثقافة + قواعد</p></div></a>
-          <a class="resource-item" href="https://www.youtube.com/@GoetheInstitut" target="_blank" rel="noopener"><span class="res-icon">🏛️</span><div><strong>Goethe-Institut</strong><p>القناة الرسمية لمعهد غوته</p></div></a>
+          <a class="resource-item" href="https://www.youtube.com/@EasyGerman" target="_blank" rel="noopener"><span class="res-icon">🇩🇪</span><div><strong>Easy German</strong><p>مقابلات حقيقية</p></div></a>
+          <a class="resource-item" href="https://www.youtube.com/@DeutschmitRieke" target="_blank" rel="noopener"><span class="res-icon">👩‍🏫</span><div><strong>Deutsch mit Rieke</strong><p>شرح قواعد</p></div></a>
+          <a class="resource-item" href="https://www.goethe.de/en/spr/prf.html" target="_blank" rel="noopener"><span class="res-icon">🏛️</span><div><strong>Goethe-Institut</strong><p>امتحانات رسمية</p></div></a>
         </div>
       </div>
-      <div class="card">
-        <h2>🏛️ روابط غوته الرسمية</h2>
-        <div class="resource-list">
-          <a class="resource-item" href="https://www.goethe.de/en/spr/prf.html" target="_blank" rel="noopener"><span class="res-icon">📋</span><div><strong>نظرة عامة على امتحانات Goethe</strong><p>A1–C2 · معلومات رسمية</p></div></a>
-          <a class="resource-item" href="https://www.goethe.de/ins/de/en/prf/exc.html" target="_blank" rel="noopener"><span class="res-icon">📝</span><div><strong>مواد التدريب الرسمية (Modellsätze)</strong><p>نماذج مجانية من معهد غوته</p></div></a>
-          <a class="resource-item" href="https://www.goethe.de/en/spr/prf/ueb/pa2.html" target="_blank" rel="noopener"><span class="res-icon">🅰️</span><div><strong>تدريب امتحان A2</strong><p>نماذج قابلة للطباعة + أونلاين</p></div></a>
-          <a class="resource-item" href="https://www.goethe.de/en/spr/kup/prf.html" target="_blank" rel="noopener"><span class="res-icon">📅</span><div><strong>مواعيد ومراكز الامتحانات</strong><p>ابحث عن أقرب مركز اختبار</p></div></a>
+    </section>
+
+    <section id="wordbank" class="section">
+      <h2>🃏 بنك المفردات والجمل</h2>
+      <div class="tabs">
+        <button class="tab-btn active" id="wb-tab-vocab" onclick="showWordbankTab('vocab')">📚 مفردات A1</button>
+        <button class="tab-btn" id="wb-tab-sentences" onclick="showWordbankTab('sentences')">💬 جمل A1</button>
+      </div>
+      <div id="wordbank-vocab">
+        <p class="subtitle">اضغط على البطاقة لقلب الترجمة</p>
+        <div id="vocab-cats-list"></div>
+        <div id="vocab-cards-view" class="hidden">
+          <button class="btn-back" onclick="closeVocabCards()">← رجوع للفئات</button>
+          <h3 id="vocab-cat-title"></h3>
+          <div id="vocab-cards" class="vocab-cards-grid"></div>
         </div>
       </div>
-      <div class="card">
-        <h2>🛠️ أدوات مفيدة</h2>
-        <div class="resource-list">
-          <a class="resource-item" href="https://www.dw.com/en/learn-german/s-2469" target="_blank" rel="noopener"><span class="res-icon">📡</span><div><strong>Deutsche Welle – Learn German</strong><p>دروس مجانية + أخبار بطيئة</p></div></a>
-          <a class="resource-item" href="https://languagetool.org/" target="_blank" rel="noopener"><span class="res-icon">✍️</span><div><strong>LanguageTool</strong><p>مدقق قواعد وإملاء ألماني</p></div></a>
-          <a class="resource-item" href="https://www.deepl.com/translator" target="_blank" rel="noopener"><span class="res-icon">🌐</span><div><strong>DeepL Translator</strong><p>أفضل ترجمة ألماني ↔ عربي</p></div></a>
+      <div id="wordbank-sentences" class="hidden">
+        <p class="subtitle">اضغط على الجملة لإظهار الترجمة</p>
+        <div id="sentences-cats-list"></div>
+        <div id="sentences-list-view" class="hidden">
+          <button class="btn-back" onclick="closeSentencesList()">← رجوع للأقسام</button>
+          <h3 id="sentences-cat-title"></h3>
+          <div id="sentences-items"></div>
         </div>
-      </div>
-      <div class="card" style="background:#e8f5ee">
-        <h2>📱 استخدام بدون إنترنت</h2>
-        <p>بعد زيارة الموقع مرة واحدة يعمل دون اتصال:</p>
-        <ul>
-          <li>الدروس والقصص والامتحانات محلية</li>
-          <li>التقدم يُحفظ على جهازك</li>
-          <li>قسم Scan والروابط تحتاج إنترنت</li>
-        </ul>
-        <p style="margin-top:10px"><b>نصيحة:</b> أضف الموقع إلى الشاشة الرئيسية لتجربة أفضل.</p>
       </div>
     </section>
 
     <section id="scan" class="section">
-      <h2>🔍 Scan – تحليل النصوص والأخطاء</h2>
+      <h2>🔍 Scan</h2>
       <div class="card">
-        <h3>رفع صورة (خط يد أو مطبوع)</h3>
-        <div class="scan-upload" id="scan-drop">
-          <input type="file" id="scan-file" accept="image/*" capture="environment" style="display:none" onchange="handleScanImage(event)" />
-          <div class="scan-upload-inner" onclick="document.getElementById('scan-file').click()">
-            <div class="scan-upload-icon">📸</div>
-            <p><strong>اضغط لرفع صورة</strong></p>
-            <p class="hint">من المعرض أو الكاميرا</p>
-          </div>
-        </div>
-        <div id="scan-preview-wrap" class="hidden" style="margin-top:14px;text-align:center">
-          <img id="scan-preview" alt="معاينة" style="max-width:100%;max-height:220px;border-radius:12px;border:2px solid #ddd" />
-          <button class="btn-text" style="margin-top:8px" onclick="clearScanImage()">إزالة الصورة</button>
-        </div>
-        <button id="scan-ocr-btn" class="btn btn-primary" style="width:100%;margin-top:14px" onclick="runOCR()" disabled>🤖 اقرأ النص بالذكاء الاصطناعي</button>
-        <div id="scan-ocr-status" class="hint" style="margin-top:10px;text-align:center"></div>
-      </div>
-      <div class="card">
-        <h2>📝 النص وتحليل الأخطاء</h2>
-        <textarea id="scan-input" rows="3" placeholder="اكتب أو الصق نصًا ألمانيًا..." style="width:100%;padding:12px;border-radius:10px;border:1px solid #ddd;font-family:Inter,sans-serif;direction:ltr;text-align:left;font-size:1.1rem;box-sizing:border-box;"></textarea>
-        <button class="btn btn-primary" style="width:100%;margin-top:10px;background:#8e44ad" onclick="analyzeGermanText()">🔎 تحليل الأخطاء بالذكاء الاصطناعي</button>
+        <textarea id="scan-input" rows="3" placeholder="نص ألماني..." style="width:100%;padding:12px;border-radius:10px;border:1px solid #ddd;font-family:Inter,sans-serif;direction:ltr;text-align:left;box-sizing:border-box;"></textarea>
+        <button class="btn btn-primary" style="width:100%;margin-top:10px;background:#8e44ad" onclick="analyzeGermanText()">🔎 تحليل الأخطاء</button>
         <div id="scan-errors-box" class="hidden" style="margin-top:14px">
           <div id="scan-highlighted" class="scan-highlighted" dir="ltr"></div>
           <div id="scan-corrections" class="scan-corrections"></div>
         </div>
-        <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap">
-          <button class="btn btn-primary" style="flex:1;min-width:140px" onclick="speakScanText()">🔊 استمع للنطق</button>
-          <button class="btn" style="flex:1;min-width:140px;background:#2980b9;color:#fff" onclick="translateScanText()">🇸🇦 ترجمة للعربية</button>
-        </div>
-        <div id="scan-translation" class="hidden" style="margin-top:14px;padding:14px;background:#e8f5ee;border-radius:10px;border-right:4px solid #0a7a3e"></div>
+        <div id="scan-preview-wrap" class="hidden"></div>
+        <button id="scan-ocr-btn" class="hidden" disabled></button>
+        <div id="scan-ocr-status" class="hidden"></div>
+        <div id="scan-translation" class="hidden"></div>
       </div>
     </section>
   </main>
@@ -249,14 +229,12 @@
   <script src="lessons.js"></script>
   <script src="stories.js"></script>
   <script src="exams.js"></script>
+  <script src="vocab-a1-ready.js"></script>
+  <script src="sentences-a1-ready.js"></script>
   <script src="app.js"></script>
   <script>
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function() {
-        navigator.serviceWorker.register('./sw.js')
-          .then(function(reg) { console.log('SW registered'); })
-          .catch(function(err) { console.log('SW failed', err); });
-      });
+      navigator.serviceWorker.register('sw.js').catch(function(){});
     }
   </script>
 </body>
